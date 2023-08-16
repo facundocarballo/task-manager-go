@@ -7,7 +7,7 @@ import (
 	"github.com/facundocarballo/task-manager/types"
 )
 
-func CreateUser(database *sql.DB, user types.User) bool {
+func CreateUser(database *sql.DB, user *types.User) error {
 
 	_, err := database.Exec(
 		INSERT_USER_STATEMENT,
@@ -16,5 +16,5 @@ func CreateUser(database *sql.DB, user types.User) bool {
 		crypto.TextToHash(user.Password),
 	)
 
-	return err == nil
+	return err
 }

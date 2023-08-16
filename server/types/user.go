@@ -1,5 +1,9 @@
 package types
 
+import (
+	"encoding/json"
+)
+
 type User struct {
 	Id       int    `json:"id"`
 	Username string `json:"username"`
@@ -12,10 +16,11 @@ func BodyToUser(body []byte) *User {
 		return nil
 	}
 
-	return &User{
-		Id:       1,
-		Username: "facundo",
-		Email:    "facu@gmail.com",
-		Password: "facundo00",
+	var user User
+	err := json.Unmarshal(body, &user)
+	if err != nil {
+		return nil
 	}
+
+	return &user
 }

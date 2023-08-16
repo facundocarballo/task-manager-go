@@ -7,6 +7,7 @@ import (
 
 	"github.com/facundocarballo/task-manager/handlers/db"
 	"github.com/facundocarballo/task-manager/handlers/get"
+	"github.com/facundocarballo/task-manager/handlers/post"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -24,22 +25,22 @@ func main() {
 	defer database.Close()
 
 	// Get Endpoints
-	http.HandleFunc("get/users", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/get/users", func(w http.ResponseWriter, r *http.Request) {
 		get.GetAllUsers(w, r, database)
 	})
 
 	// Get a specefic user -> get/user?id=10
-	http.HandleFunc("get/user", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/get/user", func(w http.ResponseWriter, r *http.Request) {
 
 	})
 
 	// Get all the categories -> get/user?id=10/categories
-	http.HandleFunc("get/user/categories", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/get/user/categories", func(w http.ResponseWriter, r *http.Request) {
 
 	})
 
 	// Get a specific category -> get/user?id=10/category?id=9
-	http.HandleFunc("get/category/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/get/category/", func(w http.ResponseWriter, r *http.Request) {
 
 	})
 
@@ -49,7 +50,7 @@ func main() {
 	})
 
 	http.HandleFunc("/post/create-user", func(w http.ResponseWriter, r *http.Request) {
-
+		post.CreateUser(w, r, database)
 	})
 
 	http.HandleFunc("/post/create-task", func(w http.ResponseWriter, r *http.Request) {

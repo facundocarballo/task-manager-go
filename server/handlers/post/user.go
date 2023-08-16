@@ -28,10 +28,15 @@ func CreateUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 		return false
 	}
 
-	db.CreateUser(database, *user)
+	err = db.CreateUser(database, user)
 
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("POST Request received correctly."))
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("POST Request received correctly."))
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Cannot create that user. ERROR: " + err.Error()))
+	}
 
-	return true
+	return err == nil
 }
