@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack, VStack, Box, Spacer, Heading } from "@chakra-ui/react";
+import { HStack, VStack, Box, Heading } from "@chakra-ui/react";
 
 export const NavBar = () => {
     // Attributes

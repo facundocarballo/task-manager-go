@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
 export interface ITheDivider {
@@ -7,6 +7,7 @@ export interface ITheDivider {
 
 export const TheDivider = ({ horizontal }: ITheDivider) => {
    // Attributes
+   const bg = useColorModeValue('light.divider', 'dark.divider');
    // Context
    // Methods
    // Component
@@ -14,7 +15,7 @@ export const TheDivider = ({ horizontal }: ITheDivider) => {
       return (
          <>
             <Box h='10px' />
-            <Box w='full' h='3px' bg='gray.100' />
+            <Box w='full' h='3px' bg={bg} />
             <Box h='10px' />
          </>
       )
@@ -23,7 +24,7 @@ export const TheDivider = ({ horizontal }: ITheDivider) => {
          <>
             <>
                <Box w='10px' />
-               <Box h='150px' w='3px' bg='gray.100' />
+               <Box h='150px' w='3px' bg={bg}  />
                <Box w='10px' />
             </>
          </>

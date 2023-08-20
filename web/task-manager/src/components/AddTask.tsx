@@ -61,7 +61,7 @@ export const AddTask = () => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button colorScheme='green' onClick={onClose} ml={3}>
+              <Button variant='primary' onClick={onClose} ml={3}>
                 Create Task
               </Button>
             </AlertDialogFooter>
@@ -76,10 +76,10 @@ export const AddTask = () => {
           onChange={(e) => setTaskTitle(e.currentTarget.value)}
           size='md'
         />
-        <Button bg='green.500' onClick={handleAddTaskTitle}>
+        <Button variant='primary' onClick={handleAddTaskTitle}>
           <AddIcon />
         </Button>
-        <Button color='white' bg='gray.800' onClick={handleAddInfo}>
+        <Button variant='secundary' onClick={handleAddInfo}>
           Add Info
         </Button>
       </HStack>

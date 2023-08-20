@@ -1,18 +1,17 @@
 import Head from 'next/head';
-import { Inter } from 'next/font/google';
 import { NavBar } from '@/src/components/NavBar';
 import { InputTask } from '@/src/subpages/InputTask';
 import { TheDivider } from '@/src/components/TheDivider';
 import { Tasks } from '@/src/subpages/Tasks';
 import { Categories } from '@/src/subpages/Categories';
 import { Footer } from '@/src/subpages/Footer';
-import { VStack } from '@chakra-ui/react';
+import { VStack, useColorModeValue } from '@chakra-ui/react';
 
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const bg = useColorModeValue('light.bg', 'dark.bg');
   return (
-    <VStack minH='100%'>
+    <VStack minH='100%' bg={bg}>
       <Head>
         <title>Task Manager</title>
         <meta name="description" content="App to handle all of your tasks." />

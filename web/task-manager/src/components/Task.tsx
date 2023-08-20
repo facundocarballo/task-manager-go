@@ -14,7 +14,7 @@ export const Task = () => {
             <Box h='5px'/>
             <HStack w='full'>
                 <Spacer />
-                <Button bg='gray.800' size='sm' borderRadius='10'>
+                <Button variant='secundary' size='sm' borderRadius='10'>
                     <InfoIcon color='white' />
                 </Button>
             </HStack>
@@ -22,7 +22,7 @@ export const Task = () => {
                 <Box w='10px'/>
                 <Text>Do Something...</Text>
                 <Spacer />
-                <Button h='50px' w='100px' bg='green.500'>
+                <Button h='50px' w='100px' variant='primary'>
                     DONE
                 </Button>
             </HStack>

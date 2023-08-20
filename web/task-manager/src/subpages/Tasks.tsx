@@ -17,7 +17,7 @@ export const Tasks = () => {
             <Heading>Tasks</Heading>
             <Task />
             <Task />
-            <Button color='white' bg='gray.800' onClick={handleShowMore}>
+            <Button variant='secundary' onClick={handleShowMore}>
                 Show More
             </Button>
         </VStack>
