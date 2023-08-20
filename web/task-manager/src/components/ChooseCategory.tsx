@@ -1,4 +1,4 @@
-import { Select, useDisclosure, Button, Input, Box, HStack, Spacer } from '@chakra-ui/react';
+import { Select, useDisclosure, Button, Input, Box, HStack, Spacer, Heading, VStack } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -13,7 +13,9 @@ import { AddIcon } from '@chakra-ui/icons';
 
 export const ChooseCategory = () => {
     // Attributes
-    const [newCategory, setNewCategory] = React.useState<string>('');
+    const [newTitle, setNewTitle] = React.useState<string>('');
+    const [newDescription, setNewDescription] = React.useState<string>('');
+    const [newColor, setNewColor] = React.useState<string>('');
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
     // Context
@@ -41,17 +43,32 @@ export const ChooseCategory = () => {
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
-                            <Input
-                                placeholder="New Category"
-                                value={newCategory}
-                                onChange={(e) => setNewCategory(e.currentTarget.value)}
-                            />
+                            <VStack>
+                                <Heading>Create a new Category</Heading>
+                                <Input
+                                    placeholder="Title"
+                                    value={newTitle}
+                                    onChange={(e) => setNewTitle(e.currentTarget.value)}
+                                />
+                                <Input
+                                    placeholder="Description"
+                                    value={newDescription}
+                                    onChange={(e) => setNewDescription(e.currentTarget.value)}
+                                />
+                                <Input
+                                    placeholder="Color"
+                                    value={newColor}
+                                    onChange={(e) => setNewColor(e.currentTarget.value)}
+                                />
+                                <Button variant='primary'>
+                                    CREATE CATEGORY
+                                </Button>
+                            </VStack>
+
                             <Spacer />
                             <Box w='30px' />
                             <Spacer />
-                            <Button variant='primary'>
-                                <AddIcon />
-                            </Button>
+
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialogOverlay>
