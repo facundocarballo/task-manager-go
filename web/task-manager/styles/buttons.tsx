@@ -19,6 +19,14 @@ export const ButtonStyles = {
                 boxShadow: 'md',
                 transform: 'scale(1.05)',
             }
+        }),
+        info: () => ({
+            bg: useColorModeValue('light.bg', 'dark.bg'),
+            color: useColorModeValue('dark.bg', 'light.bg'),
+            _hover: {
+                boxShadow: 'md',
+                transform: 'scale(1.15)',
+            }
         })
     }
 }
