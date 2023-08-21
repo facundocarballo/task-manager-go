@@ -8,14 +8,22 @@ export const Categories = () => {
     // Methods
     // Component
     return (
-        <VStack>  
+        <VStack>
             <Heading>Categories</Heading>
             <HStack w='full'>
                 <Spacer />
-                <Category />
-                <Category />
-                <Category />
-                <Category />
+                <Category
+                    title="Home"
+                    description='The description of Home Category'
+                    color='2324'
+                    tasks={['hola', 'chau']}
+                />
+                <Category
+                    title="House"
+                    description='The description of House Category'
+                    color='f232'
+                    tasks={['Crear Interfaz Grafica', 'Visualizar las tareas pendientes ordenadas por categoria', 'ADIOS', 'ja', 'le']}
+                />
                 <Spacer />
             </HStack>
         </VStack>
