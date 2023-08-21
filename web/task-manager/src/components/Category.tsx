@@ -62,7 +62,6 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
             bg={`#${color}`}
             borderRadius='10px'
             overflowY='scroll'
-
          >
             <HStack w='full'>
                <Box w='10px' />
