@@ -1,5 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Button, HStack, Input } from '@chakra-ui/react';
+import { Button, HStack, Heading, Input } from '@chakra-ui/react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -16,9 +16,10 @@ export const AddTask = () => {
   // Attributes
   const [taskTitle, setTaskTitle] = React.useState<string>('');
   const [taskDescription, setTaskDescription] = React.useState<string>('');
-  // const [taskEndDate, setTaskEndDate] = React.useState<Date>(new Date());
+  const [taskEndDate, setTaskEndDate] = React.useState<Date>(new Date());
   // Alert Dialog
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
   const cancelRef = React.useRef(null);
   const onClose = () => setIsOpen(false);
   // Context
@@ -29,6 +30,10 @@ export const AddTask = () => {
   const handleAddInfo = () => {
     setIsOpen(true);
   }
+  const handleSetDate = (e: string) => {
+    const date = new Date(e);
+    setTaskEndDate(date);
+  };
   // Component
   return (
     <>
@@ -50,13 +55,22 @@ export const AddTask = () => {
                 title='Title'
                 placeholder='Task Title'
                 value={taskTitle}
+                type='text'
                 handler={setTaskTitle}
               />
               <InputInfo
                 title='Description'
                 placeholder='Task Description'
                 value={taskDescription}
+                type='text'
                 handler={setTaskDescription}
+              />
+              <InputInfo
+                value={undefined}
+                title='Deadline'
+                placeholder="Task Deadline"
+                type='datetime-local'
+                handler={handleSetDate}
               />
             </AlertDialogBody>
 

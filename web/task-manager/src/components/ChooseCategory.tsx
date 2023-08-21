@@ -1,4 +1,4 @@
-import { Select, useDisclosure, Button, Input, Box, HStack, Spacer, Heading, VStack } from '@chakra-ui/react';
+import { Select, useDisclosure, Button, Input, Box, HStack, Spacer, Heading, VStack, InputGroup, InputLeftAddon } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -43,8 +43,8 @@ export const ChooseCategory = () => {
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
-                            <VStack>
-                                <Heading>Create a new Category</Heading>
+                            <VStack w='full'>
+                                <Heading>Create Category</Heading>
                                 <Input
                                     placeholder="Title"
                                     value={newTitle}
@@ -55,11 +55,28 @@ export const ChooseCategory = () => {
                                     value={newDescription}
                                     onChange={(e) => setNewDescription(e.currentTarget.value)}
                                 />
-                                <Input
-                                    placeholder="Color"
-                                    value={newColor}
-                                    onChange={(e) => setNewColor(e.currentTarget.value)}
-                                />
+                                <HStack w='full'>
+                                    <InputGroup>
+                                        <InputLeftAddon children="#" />
+                                        <Input
+                                            placeholder="Hexa Color"
+                                            value={newColor}
+                                            onChange={(e) => setNewColor(e.currentTarget.value)}
+                                            w='full'
+                                        />
+                                    </InputGroup>
+                                    <Spacer />
+                                    <Box
+                                        h='40px'
+                                        w='45px'
+                                        borderRadius='10px'
+                                        bg={`#${newColor}`}
+                                        _hover={{
+                                            transform: 'scale(1.1)',
+                                            boxShadow: 'md'
+                                        }}
+                                    />
+                                </HStack>
                                 <Button variant='primary'>
                                     CREATE CATEGORY
                                 </Button>
