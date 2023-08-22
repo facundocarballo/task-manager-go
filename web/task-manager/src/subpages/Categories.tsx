@@ -25,14 +25,16 @@ export const Categories = () => {
                 <Box w='10px' />
                 {
                     categories == null ? null :
-                    categories.map((cat) => 
-                        <Category 
-                            title={cat.title}
-                            description={cat.description}
-                            color={cat.color}
-                            tasks={cat.tasks}
-                        />
-                    )
+                        categories.map((cat, idx) =>
+                            <Category
+                                key={idx}
+                                title={cat.title}
+                                description={cat.description}
+                                color={cat.color}
+                                tasks={cat.tasks}
+                                id={cat.id}
+                            />
+                        )
                 }
                 <Box w='10px' />
             </HStack>

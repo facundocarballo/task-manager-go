@@ -14,6 +14,7 @@ import { ITask, Task } from './Task';
 
 
 export interface ICategory {
+   id: number,
    title: string,
    description: string,
    tasks: ITask[],
@@ -32,16 +33,27 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
    const renderTasks = (task: ITask): any => {
       if (task.subtasks == null) {
          return (
-            <>
-               <Task
-                  title={task.title}
-                  level={task.level}
-                  subtasks={null}
-               />
-            </>
+            <Task
+               key={task.id}
+               title={task.title}
+               level={task.level}
+               subtasks={null}
+               id={task.id}
+               category_id={task.category_id}
+            />
          );
       }
-      return task.subtasks.map((subtask) => renderTasks(subtask))
+      return <>
+         <Task
+            key={task.id}
+            title={task.title}
+            level={task.level}
+            subtasks={null}
+            id={task.id}
+            category_id={task.category_id}
+         />
+         {task.subtasks.map((subtask) => renderTasks(subtask))}
+      </>
    };
    // Component
    return (
