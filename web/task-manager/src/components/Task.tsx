@@ -13,7 +13,8 @@ import React from 'react';
 
 export interface ITask {
     title: string,
-    level: number
+    level: number,
+    subtasks: ITask[] | null
 }
 
 export const Task = ({title, level}: ITask) => {

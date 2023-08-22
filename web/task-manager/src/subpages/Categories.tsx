@@ -2,29 +2,13 @@ import { Box, Button, HStack, Heading, Spacer, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { Category } from '../components/Category';
 import { ITask } from '../components/Task';
+import { useProvider } from '../context';
 
 export const Categories = () => {
     // Attributes
     // Context
+    const { categories } = useProvider();
     // Methods
-    const tasks: ITask[] = [
-        {
-            title: 'Hola',
-            level: 0
-        },
-        {
-            title: 'Holaa',
-            level: 1
-        },
-        {
-            title: 'Holaaa',
-            level: 2
-        },
-        {
-            title: 'Holaaa',
-            level: 0
-        },
-    ]
     // Component
     return (
         <VStack w='full'>
@@ -39,12 +23,17 @@ export const Categories = () => {
             </HStack>
             <HStack w='full' overflowX='scroll'>
                 <Box w='10px' />
-                <Category
-                    title="Home"
-                    description='The description of Home Category'
-                    color='2324'
-                    tasks={tasks}
-                />
+                {
+                    categories == null ? null :
+                    categories.map((cat) => 
+                        <Category 
+                            title={cat.title}
+                            description={cat.description}
+                            color={cat.color}
+                            tasks={cat.tasks}
+                        />
+                    )
+                }
                 <Box w='10px' />
             </HStack>
         </VStack>

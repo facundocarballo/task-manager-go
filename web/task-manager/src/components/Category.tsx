@@ -9,7 +9,7 @@ import {
    AlertDialogOverlay,
    AlertDialogCloseButton,
 } from '@chakra-ui/react'
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { ITask, Task } from './Task';
 
 
@@ -29,6 +29,20 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
    const cancelRef = React.useRef(null)
    // Context
    // Methods
+   const renderTasks = (task: ITask): any => {
+      if (task.subtasks == null) {
+         return (
+            <>
+               <Task
+                  title={task.title}
+                  level={task.level}
+                  subtasks={null}
+               />
+            </>
+         );
+      }
+      return task.subtasks.map((subtask) => renderTasks(subtask))
+   };
    // Component
    return (
       <>
@@ -84,9 +98,7 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
             </HStack>
             {
                tasks.map((task) => {
-                  return (
-                     <Task title={task.title} level={task.level} />
-                  )
+                  return renderTasks(task)
                })
             }
             <Spacer />
