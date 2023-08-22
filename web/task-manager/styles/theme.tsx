@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, useColorModeValue } from "@chakra-ui/react";
 import { ButtonStyles as Button } from "./buttons";
 
 const colors = {
@@ -16,8 +16,16 @@ const colors = {
     }
 };
 
+const styles = {
+    global: () => ({
+        body: {
+            bg: useColorModeValue('light.bg', 'dark.bg')
+        }
+    })
+}
+
 const components = { Button };
 
-const theme = extendTheme({colors, components})
+const theme = extendTheme({colors, components, styles})
 
 export default theme;

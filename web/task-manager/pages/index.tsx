@@ -5,13 +5,12 @@ import { TheDivider } from '@/src/components/TheDivider';
 import { Tasks } from '@/src/subpages/Tasks';
 import { Categories } from '@/src/subpages/Categories';
 import { Footer } from '@/src/subpages/Footer';
-import { VStack, useColorModeValue } from '@chakra-ui/react';
+import { Spacer, VStack, useColorModeValue } from '@chakra-ui/react';
 
 
 export default function Home() {
-  const bg = useColorModeValue('light.bg', 'dark.bg');
   return (
-    <VStack minH='100%' bg={bg}>
+    <VStack minH='100%'>
       <Head>
         <title>Task Manager</title>
         <meta name="description" content="App to handle all of your tasks." />
@@ -21,10 +20,11 @@ export default function Home() {
       <NavBar />
       <TheDivider horizontal={true} />
       <InputTask />
-      <TheDivider horizontal={true} />
-      <Tasks />
+      {/* <TheDivider horizontal={true} /> */}
+      {/* <Tasks /> */}
       <TheDivider horizontal={true} />
       <Categories />
+      <Spacer />
       <TheDivider horizontal={true} />
       <Footer />
     </VStack>
