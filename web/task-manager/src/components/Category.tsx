@@ -1,4 +1,4 @@
-import { InfoIcon } from '@chakra-ui/icons';
+import { EditIcon, InfoIcon } from '@chakra-ui/icons';
 import { Box, Button, Divider, HStack, Spacer, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import {
    AlertDialog,
@@ -10,12 +10,13 @@ import {
    AlertDialogCloseButton,
 } from '@chakra-ui/react'
 import React from 'react';
+import { ITask, Task } from './Task';
 
 
 export interface ICategory {
    title: string,
    description: string,
-   tasks: string[],
+   tasks: ITask[],
    color: string,
 }
 
@@ -57,8 +58,10 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
          </AlertDialog>
 
          <VStack
-            h='250px'
-            w='200px'
+            minH='400px'
+            maxH='400px'
+            minW='600px'
+            maxW='600px'
             bg={`#${color}`}
             borderRadius='10px'
             overflowY='scroll'
@@ -66,38 +69,25 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
             <HStack w='full'>
                <Box w='10px' />
                <Text
-                  fontSize='20px'
+                  fontSize='30px'
                   fontWeight='bold'
                >
-                  {title}
+                  {title} ({tasks.length})
                </Text>
                <Spacer />
+               <Button variant='info' bg={`#${color}`} onClick={onOpen}>
+                  <EditIcon />
+               </Button>
                <Button variant='info' bg={`#${color}`} onClick={onOpen}>
                   <InfoIcon />
                </Button>
             </HStack>
             {
-               tasks.map((task, idx) => {
-                  if (idx > MAX_TASK_SHOWED) return null;
+               tasks.map((task) => {
                   return (
-                     <VStack w='full'>
-                        <HStack w='full'>
-                           <Box w='3px' />
-                           <Spacer />
-                           <Text
-                           >
-                              {task}
-                           </Text>
-                           <Spacer />
-                           <Box w='3px' />
-                        </HStack>
-                        <Divider />
-                     </VStack>
+                     <Task title={task.title} level={task.level} />
                   )
                })
-            }
-            {
-               tasks.length > MAX_TASK_SHOWED ? <Text>...</Text> : null
             }
             <Spacer />
             <Text>

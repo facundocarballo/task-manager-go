@@ -1,5 +1,5 @@
 import { CheckIcon, InfoIcon } from '@chakra-ui/icons';
-import { HStack, Spacer, VStack, Box, Button, Text, useDisclosure } from '@chakra-ui/react';
+import { HStack, Spacer, VStack, Box, Button, Text, useDisclosure, Divider } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -10,14 +10,22 @@ import {
     AlertDialogCloseButton,
 } from '@chakra-ui/react'
 import React from 'react';
-import { TheDivider } from './TheDivider';
 
-export const Task = () => {
+export interface ITask {
+    title: string,
+    level: number
+}
+
+export const Task = ({title, level}: ITask) => {
     // Attributes
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
     // Context
     // Methods
+    const getWidthByLevel = (): string => {
+        if (level == 0) return '3px';
+        return `${level*50}px`;
+    }
     // Component
     return (
         <>
@@ -44,28 +52,24 @@ export const Task = () => {
                 </AlertDialogOverlay>
             </AlertDialog>
 
-            <VStack w='400px' >
-                <Box h='5px' />
+            <VStack w='full'>
                 <HStack w='full'>
-                    <HStack w='100px' bg='red.400' borderRadius='5px'>
-                        <Spacer />
-                        <Text >Home</Text>
-                        <Spacer />
-                    </HStack>
-                    <Spacer />
-                    <Button variant='info' onClick={onOpen}>
-                        <InfoIcon />
-                    </Button>
+                    <Box w={getWidthByLevel()} />
+                    <Box
+                        minW='35px'
+                        maxW='35px'
+                        minH='35px'
+                        maxH='35px'
+                        border='1px solid'
+                        borderRadius='10px'
+                    />
+                    <Text
+                    >
+                        {title}
+                    </Text>
+                    <Box w='3px' />
                 </HStack>
-                <HStack w='full' bg='gray.100' borderRadius='15px'>
-                    <Box w='10px' />
-                    <Text>Do Something...</Text>
-                    <Spacer />
-                    <Button variant='primary'>
-                        <CheckIcon />
-                    </Button>
-                </HStack>
-                <TheDivider horizontal={true} />
+                <Divider />
             </VStack>
         </>
     );
