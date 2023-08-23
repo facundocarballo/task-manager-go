@@ -14,6 +14,7 @@ import { ITask, Task } from './Task';
 import { useProvider } from '../context';
 import { handleDragAndDrop } from '../handlers/dragAndDrop';
 import { copyCategories } from '../handlers/categories';
+import { getNumberOfTasks } from '../handlers/task';
 
 
 export interface ICategory {
@@ -153,7 +154,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                   fontSize='30px'
                   fontWeight='bold'
                >
-                  {title} ({tasks.length})
+                  {title} ({getNumberOfTasks(tasks)})
                </Text>
                <Spacer />
                <Button variant='info' bg={`#${color}`} onClick={onOpen}>
