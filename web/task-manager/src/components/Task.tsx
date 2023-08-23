@@ -1,5 +1,5 @@
-import { CheckIcon, DragHandleIcon, InfoIcon } from '@chakra-ui/icons';
-import { HStack, Spacer, VStack, Box, Button, Text, useDisclosure, Divider, Center } from '@chakra-ui/react';
+import { CheckIcon, DragHandleIcon } from '@chakra-ui/icons';
+import { HStack, VStack, Box, Text, useDisclosure, Divider, Center } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -10,8 +10,6 @@ import {
     AlertDialogCloseButton,
 } from '@chakra-ui/react'
 import React, { ReactElement } from 'react';
-import { useProvider } from '../context';
-import { ICategory } from './Category';
 
 export interface ITask {
     title: string,
@@ -25,16 +23,12 @@ export const Task = ({ title, level, id, category_id }: ITask) => {
     // Attributes
     const [showCheck, setShowCheck] = React.useState(false);
     const [showDrag, setShowDrag] = React.useState(false);
-    const taskDraggable = React.useRef<any>(null);
-    const taskReplaced = React.useRef<any>(null);
 
     // AlertDialog Attributes
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
 
-
     // Context
-    const { categories, setCategories } = useProvider();
     // Methods
     const getWidthByLevel = (): string => {
         if (level == 0) return '3px';
@@ -49,28 +43,7 @@ export const Task = ({ title, level, id, category_id }: ITask) => {
     const handleShowChcek = () => {
         setShowCheck(!showCheck)
     }
-    // Draggable Methods
-    const handleDragOnEnd = () => {
-        let cats: ICategory[] | null = [];
-        let category: ICategory | null = null;
-        let task: ITask | null = null;
-        if (categories == null) return;
-        for (let c of categories) {
-            cats.push(c)
-        }
-        
-        category = cats[category_id];
 
-        if (category == null) return;
-        
-        task = category.tasks[category.tasks.length - 1];
-        category.tasks[category.tasks.length - 1] = category.tasks[0];
-        category.tasks[0] = task;
-
-        cats[category_id] = category;
-
-        setCategories(cats);
-    };
     // SubComponents    
     const showDragIcon = (): ReactElement<any> | null => {
         if (showDrag) {
@@ -122,6 +95,7 @@ export const Task = ({ title, level, id, category_id }: ITask) => {
             />
         )
     }
+
     // Component
     return (
         <>
@@ -152,14 +126,6 @@ export const Task = ({ title, level, id, category_id }: ITask) => {
                 w='full'
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                draggable
-                onDragStart={(e) => {
-                    taskDraggable.current = id
-                }}
-                onDragEnter={() => {
-                    taskReplaced.current = id
-                }}
-                onDragEnd={handleDragOnEnd}
             >
                 <HStack w='full'>
                     {showDragIcon()}

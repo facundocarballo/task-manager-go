@@ -1,5 +1,5 @@
 import { EditIcon, InfoIcon } from '@chakra-ui/icons';
-import { Box, Button, Divider, HStack, Spacer, Text, VStack, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, HStack, Spacer, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import {
    AlertDialog,
    AlertDialogBody,
@@ -9,8 +9,11 @@ import {
    AlertDialogOverlay,
    AlertDialogCloseButton,
 } from '@chakra-ui/react'
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { ITask, Task } from './Task';
+import { useProvider } from '../context';
+import { handleDragAndDrop } from '../handlers/dragAndDrop';
+import { copyCategories } from '../handlers/categories';
 
 
 export interface ICategory {
@@ -21,15 +24,33 @@ export interface ICategory {
    color: string,
 }
 
-export const Category = ({ title, description, tasks, color }: ICategory) => {
+export const Category = ({ title, description, tasks, color, id }: ICategory) => {
    // Attributes
-   const MAX_TASK_SHOWED = 3;
-
+   const taskDraggable = React.useRef<any>(null);
+   const taskReplaced = React.useRef<any>(null);
    // Alert Dialog
    const { isOpen, onOpen, onClose } = useDisclosure()
    const cancelRef = React.useRef(null)
    // Context
+   const { categories, setCategories } = useProvider();
    // Methods
+
+   const handleDragOnEnd = () => {
+      if (categories == null) return;
+      let cats: ICategory[] = copyCategories(categories);
+      let tasks = handleDragAndDrop(
+         taskDraggable.current,
+         taskReplaced.current,
+         cats[id].tasks
+      );
+      cats[id].tasks = tasks;
+      setCategories(cats);
+   };
+
+   const handleOnDragEnter = (id: number) => {
+      taskReplaced.current = id;
+   };
+
    const renderTasks = (task: ITask): any => {
       if (task.subtasks == null) {
          return (
@@ -55,6 +76,8 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
          {task.subtasks.map((subtask) => renderTasks(subtask))}
       </>
    };
+
+
    // Component
    return (
       <>
@@ -109,8 +132,20 @@ export const Category = ({ title, description, tasks, color }: ICategory) => {
                </Button>
             </HStack>
             {
-               tasks.map((task) => {
-                  return renderTasks(task)
+               tasks.map((task, idx) => {
+                  return (
+                     <VStack
+                        w='full'
+                        draggable
+                        onDragStart={(e) => {
+                           taskDraggable.current = idx
+                        }}
+                        onDragEnter={() => handleOnDragEnter(idx)}
+                        onDragEnd={handleDragOnEnd}
+                     >
+                        {renderTasks(task)}
+                     </VStack>
+                  )
                })
             }
             <Spacer />
