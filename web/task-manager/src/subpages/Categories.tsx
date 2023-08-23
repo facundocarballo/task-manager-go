@@ -23,6 +23,7 @@ export const Categories = () => {
         // cats = newCats;
         setCategories(newCats);
     };
+
     // Component
     return (
         <VStack w='full'>
@@ -30,10 +31,6 @@ export const Categories = () => {
                 <Box w='20px' />
                 <Heading>Categories</Heading>
                 <Spacer />
-                <Button variant='secundary'>
-                    Edit
-                </Button>
-                <Box w='20px' />
             </HStack>
             <HStack
                 w='full'
@@ -43,13 +40,14 @@ export const Categories = () => {
                 {
                     categories == null ? null :
                         categories.map((cat, idx) =>
-                            <VStack
+                            <HStack
                                 key={idx}
                                 draggable
                                 onDragStart={() => { catDrag.current = idx }}
                                 onDragEnter={() => { catDrop.current = idx }}
                                 onDragEnd={handleOnDragEnd}
                             >
+                                
                                 <Category
                                     key={idx}
                                     title={cat.title}
@@ -58,7 +56,7 @@ export const Categories = () => {
                                     tasks={cat.tasks}
                                     id={cat.id}
                                 />
-                            </VStack>
+                            </HStack>
                         )
                 }
                 <Box w='10px' />
