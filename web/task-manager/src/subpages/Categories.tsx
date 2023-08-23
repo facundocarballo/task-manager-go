@@ -1,7 +1,6 @@
 import { Box, Button, HStack, Heading, Spacer, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { Category, ICategory } from '../components/Category';
-import { ITask } from '../components/Task';
 import { useProvider } from '../context';
 import { copyCategories } from '../handlers/categories';
 import { handleDragAndDrop } from '../handlers/dragAndDrop';
