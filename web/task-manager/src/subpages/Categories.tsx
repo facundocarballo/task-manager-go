@@ -16,8 +16,6 @@ export const Categories = () => {
     const handleOnDragEnd = () => {
         if (categories == null) return;
         let cats: ICategory[] = copyCategories(categories);
-        console.log("desde: ", catDrag.current);
-        console.log("hasta: ", catDrop.current);
         let newCats = handleDragAndDrop(
             catDrag.current,
             catDrop.current,
