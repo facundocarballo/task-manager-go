@@ -1,4 +1,4 @@
-import { EditIcon, InfoIcon } from '@chakra-ui/icons';
+import { DragHandleIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
 import { Box, Button, HStack, Spacer, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import {
    AlertDialog,
@@ -9,7 +9,7 @@ import {
    AlertDialogOverlay,
    AlertDialogCloseButton,
 } from '@chakra-ui/react'
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { ITask, Task } from './Task';
 import { useProvider } from '../context';
 import { handleDragAndDrop } from '../handlers/dragAndDrop';
@@ -28,6 +28,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
    // Attributes
    const taskDraggable = React.useRef<any>(null);
    const taskReplaced = React.useRef<any>(null);
+   const [showDragIcon, setShowDragIcon] = React.useState<boolean>(false);
    // Alert Dialog
    const { isOpen, onOpen, onClose } = useDisclosure()
    const cancelRef = React.useRef(null)
@@ -77,6 +78,32 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       </>
    };
 
+   const handleShowDragIcon = (): ReactElement<any> | null => {
+      if (showDragIcon) {
+         return (
+            <>
+               <Box w='5px' />
+               <DragHandleIcon
+                  cursor='pointer'
+                  _hover={{
+                     shadow: 'lg',
+                     transform: 'scale(1.1)',
+                  }}
+               />
+            </>
+         );
+      }
+      return <>
+         <Box w='30px' />
+      </>;
+   }
+
+   const handleMouseEnter = () => {
+      setShowDragIcon(true)
+   }
+   const handleMouseLeave = () => {
+      setShowDragIcon(false)
+   }
 
    // Component
    return (
@@ -115,7 +142,12 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
             borderRadius='10px'
             overflowY='scroll'
          >
-            <HStack w='full'>
+            <HStack 
+            w='full'
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            >
+               {handleShowDragIcon()}
                <Box w='10px' />
                <Text
                   fontSize='30px'
