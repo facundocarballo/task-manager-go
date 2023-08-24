@@ -1,0 +1,81 @@
+{
+  "color": "4FD1C5",
+  "title": "University",
+  "description": "Task of University",
+  "tasks": [
+    {
+      "title": "Task 1",
+      "level": 0,
+      "subtasks": null,
+      "id": 0,
+      "category_id": 0
+    },
+    {
+      "title": "Task 2",
+      "level": 0,
+      "subtasks": [
+        {
+          "title": "Task 2.1",
+          "level": 1,
+          "subtasks": null,
+          "id": 2,
+          "category_id": 0
+        }
+      ],
+      "id": 1,
+      "category_id": 0
+    },
+    {
+      "title": "Task 3",
+      "level": 0,
+      "subtasks": [
+        {
+          "title": "Task 3.1",
+          "level": 1,
+          "subtasks": null,
+          "id": 4,
+          "category_id": 0
+        },
+        {
+          "title": "Task 3.2",
+          "level": 1,
+          "subtasks": [
+            {
+              "title": "Task 3.2.1",
+              "level": 2,
+              "subtasks": null,
+              "id": 6,
+              "category_id": 0
+            }
+          ],
+          "id": 5,
+          "category_id": 0
+        },
+        {
+          "title": "Task 3.3",
+          "level": 1,
+          "subtasks": null,
+          "id": 7,
+          "category_id": 0
+        },
+        {
+          "title": "Task 3.4",
+          "level": 1,
+          "subtasks": null,
+          "id": 8,
+          "category_id": 0
+        }
+      ],
+      "id": 3,
+      "category_id": 0
+    },
+    {
+      "title": "Task 4",
+      "level": 0,
+      "subtasks": null,
+      "id": 9,
+      "category_id": 0
+    }
+  ],
+  "id": 4
+}

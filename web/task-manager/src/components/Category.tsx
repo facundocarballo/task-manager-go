@@ -16,6 +16,7 @@ import { handleDragAndDrop } from '../handlers/dragAndDrop';
 import { copyCategories } from '../handlers/categories';
 import { copyTasks, getNumberOfTasks } from '../handlers/task';
 import { InputInfo } from './InputInfo';
+import { CreateCategory } from './CreateCategory';
 
 
 export interface ICategory {
@@ -37,9 +38,14 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
    const [taskTitle, setTaskTitle] = React.useState<string>('');
    const [taskDescription, setTaskDescription] = React.useState<string>('');
    const [taskEndDate, setTaskEndDate] = React.useState<Date>(new Date());
+   // Edit Category
+   const [newTitle, setNewTitle] = React.useState<string>('');
+   const [newDescription, setNewDescription] = React.useState<string>('')
+   const [newColor, setNewColor] = React.useState<string>('')
    // Alert Dialog
-   const { isOpen, onOpen, onClose } = useDisclosure()
-   const cancelRef = React.useRef(null)
+   const [openEdit, setOpenEdit] = React.useState<boolean>(false);
+   const { isOpen, onOpen, onClose } = useDisclosure();
+   const cancelRef = React.useRef(null);
    // Context
    const { categories, setCategories } = useProvider();
    // Methods
@@ -56,9 +62,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       setCategories(cats);
    };
 
-   const handleOnDragEnter = (id: number) => {
-      taskReplaced.current = id;
-   };
+
 
    const renderTasks = (task: ITask): any => {
       if (task.subtasks == null) {
@@ -124,7 +128,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       let cats = copyCategories(categories);
       const taskId = Math.random() * 100000;
       let tasks = copyTasks(cats[id].tasks);
-      
+
       tasks.push({
          title: taskTitle,
          category_id: id,
@@ -137,9 +141,71 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       setCreateTaskIsOpen(false);
    }
 
+   const handleSaveEditCategory = () => {
+      if (categories == null) return;
+      let cats = copyCategories(categories);
+      cats[id].color = newColor;
+      cats[id].description = newDescription;
+      cats[id].title = newTitle;
+      setCategories(cats);
+      setOpenEdit(false);
+   };
+
+   // Drag and Drop Categories
+   const handleOnDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+      if (categories == null) return;
+      e.dataTransfer.setData("catDrag", JSON.stringify(categories[id]));
+   };
+
+   const handleOnDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+      if (categories == null) return;
+      e.dataTransfer.setData("catDrop", JSON.stringify(categories[id]));
+   };
+
+   const hd = (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const catDrag: ICategory = JSON.parse(e.dataTransfer.getData("catDrag"));
+      const catDrop: ICategory = JSON.parse(e.dataTransfer.getData("catDrop"));
+      console.log("Queremos ir de esta categoria: ", catDrag);
+      console.log("A esta categoria: ", catDrop);
+   }
+
    // Component
    return (
       <>
+         {/* Alert Dialog - Category Edit */}
+         <AlertDialog
+            isOpen={openEdit}
+            leastDestructiveRef={cancelRef}
+            onClose={() => setOpenEdit(false)}
+         >
+            <AlertDialogOverlay>
+               <AlertDialogContent>
+                  <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                     Edit {title}
+                  </AlertDialogHeader>
+                  <AlertDialogCloseButton />
+
+                  <AlertDialogBody>
+                     <CreateCategory
+                        title={newTitle}
+                        description={newDescription}
+                        color={newColor}
+                        setTitle={setNewTitle}
+                        setDescription={setNewDescription}
+                        setColor={setNewColor}
+                     />
+                  </AlertDialogBody>
+
+                  <AlertDialogFooter>
+                     <Button variant='primary' ref={cancelRef} onClick={handleSaveEditCategory}>
+                        Save
+                     </Button>
+                  </AlertDialogFooter>
+               </AlertDialogContent>
+            </AlertDialogOverlay>
+         </AlertDialog>
+
          {/* Alert Dialog - Category Info */}
          <AlertDialog
             isOpen={isOpen}
@@ -240,6 +306,9 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                <Button variant='info' bg={bgIconsButton} onClick={onOpen}>
                   <InfoIcon />
                </Button>
+               <Button variant='secundary' onClick={() => setOpenEdit(true)}>
+                  Edit
+               </Button>
             </HStack>
             {
                tasks.map((task, idx) => {
@@ -250,7 +319,9 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                         onDragStart={(e) => {
                            taskDraggable.current = idx
                         }}
-                        onDragEnter={() => handleOnDragEnter(idx)}
+                        onDragEnter={() => {
+                           taskReplaced.current = idx;
+                        }}
                         onDragEnd={handleDragOnEnd}
                      >
                         {renderTasks(task)}

@@ -12,10 +12,16 @@ import {
 import React from 'react';
 import { Category, ICategory } from './Category';
 import { getNumberOfTasks } from '../handlers/task';
+import { useProvider } from '../context';
+import { copyCategories } from '../handlers/categories';
+import { handleDragAndDrop } from '../handlers/dragAndDrop';
 
 export interface IMiniCategory {
     cat: ICategory
 }
+
+let catDrag: ICategory|null = null;
+let catDrop: ICategory|null = null;
 
 export const MiniCategory = ({ cat }: IMiniCategory) => {
     // Attributes
@@ -23,7 +29,26 @@ export const MiniCategory = ({ cat }: IMiniCategory) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
     // Context
+    const { categories, setCategories } = useProvider();
     // Methods
+    // Drag and Drop Categories
+    const handleOnDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+        if (categories == null) return;
+        catDrag = cat;
+    };
+
+    const handleOnDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+        if (categories == null) return;
+        catDrop = cat;
+    };
+
+    const handleOnDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+        if (categories == null) return;
+        if (catDrag == null || catDrop == null) return;
+        let cats = copyCategories(categories);
+        cats = handleDragAndDrop(catDrag.id, catDrop.id, cats);
+        setCategories(cats)
+    }
     // Component
     return (
         <>
@@ -43,17 +68,17 @@ export const MiniCategory = ({ cat }: IMiniCategory) => {
                         <AlertDialogCloseButton />
 
                         <AlertDialogBody>
-                            <Category 
-                            color={cat.color}
-                            description={cat.description}
-                            id={cat.id}
-                            tasks={cat.tasks}
-                            title={cat.title}
+                            <Category
+                                color={cat.color}
+                                description={cat.description}
+                                id={cat.id}
+                                tasks={cat.tasks}
+                                title={cat.title}
                             />
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
-                            
+
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialogOverlay>
@@ -69,6 +94,10 @@ export const MiniCategory = ({ cat }: IMiniCategory) => {
                     cursor: 'pointer'
                 }}
                 onClick={onOpen}
+                draggable
+                onDragStart={(e) => handleOnDragStart(e)}
+                onDragEnter={(e) => handleOnDragEnter(e)}
+                onDragEnd={(e) => handleOnDragEnd(e)}
             >
                 <Box h='1px' />
                 <Text
