@@ -1,5 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Button, HStack, Heading, Input } from '@chakra-ui/react';
+import { Button, HStack, Input } from '@chakra-ui/react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -16,6 +16,7 @@ export const AddTask = () => {
   // Attributes
   const [taskTitle, setTaskTitle] = React.useState<string>('');
   const [taskDescription, setTaskDescription] = React.useState<string>('');
+  const [showTask, setShowTask] = React.useState<boolean>(false);
   const [taskEndDate, setTaskEndDate] = React.useState<Date>(new Date());
   // Alert Dialog
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -25,7 +26,7 @@ export const AddTask = () => {
   // Context
   // Methods
   const handleAddTaskTitle = async () => {
-
+    setShowTask(true);
   }
   const handleAddInfo = () => {
     setIsOpen(true);
@@ -84,12 +85,12 @@ export const AddTask = () => {
       </AlertDialog>
 
       <HStack w={{ 'lg': '60%', sm: '90%' }}>
-        <Input
-          placeholder="New task..."
-          value={taskTitle}
-          onChange={(e) => setTaskTitle(e.currentTarget.value)}
-          size='md'
-        />
+          <Input
+            placeholder="New task..."
+            value={taskTitle}
+            onChange={(e) => setTaskTitle(e.currentTarget.value)}
+            size='md'
+          />
         <Button variant='primary' onClick={handleAddTaskTitle}>
           <AddIcon />
         </Button>
@@ -97,6 +98,8 @@ export const AddTask = () => {
           Add Info
         </Button>
       </HStack>
+
+
     </>
   );
 }
