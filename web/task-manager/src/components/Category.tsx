@@ -61,30 +61,18 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       cats[id].tasks = tasks;
       setCategories(cats);
    };
-
-
-
+   
    const renderTasks = (task: ITask): any => {
       if (task.subtasks == null) {
          return (
             <Task
-               key={task.id}
-               title={task.title}
-               level={task.level}
-               subtasks={null}
-               id={task.id}
-               category_id={task.category_id}
+               task={task}
             />
          );
       }
       return <>
          <Task
-            key={task.id}
-            title={task.title}
-            level={task.level}
-            subtasks={null}
-            id={task.id}
-            category_id={task.category_id}
+            task={task}
          />
          {task.subtasks.map((subtask) => renderTasks(subtask))}
       </>
@@ -150,25 +138,6 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       setCategories(cats);
       setOpenEdit(false);
    };
-
-   // Drag and Drop Categories
-   const handleOnDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-      if (categories == null) return;
-      e.dataTransfer.setData("catDrag", JSON.stringify(categories[id]));
-   };
-
-   const handleOnDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-      if (categories == null) return;
-      e.dataTransfer.setData("catDrop", JSON.stringify(categories[id]));
-   };
-
-   const hd = (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      const catDrag: ICategory = JSON.parse(e.dataTransfer.getData("catDrag"));
-      const catDrop: ICategory = JSON.parse(e.dataTransfer.getData("catDrop"));
-      console.log("Queremos ir de esta categoria: ", catDrag);
-      console.log("A esta categoria: ", catDrop);
-   }
 
    // Component
    return (
@@ -316,7 +285,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                      <VStack
                         w='full'
                         draggable
-                        onDragStart={(e) => {
+                        onDragStart={() => {
                            taskDraggable.current = idx
                         }}
                         onDragEnter={() => {

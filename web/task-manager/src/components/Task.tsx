@@ -10,6 +10,7 @@ import {
     AlertDialogCloseButton,
 } from '@chakra-ui/react'
 import React, { ReactElement } from 'react';
+import { useProvider } from '../context';
 
 export interface ITask {
     title: string,
@@ -19,7 +20,11 @@ export interface ITask {
     category_id: number
 }
 
-export const Task = ({ title, level, id, category_id }: ITask) => {
+interface ITaskProps {
+    task: ITask
+}
+
+export const Task = ({ task }: ITaskProps) => {
     // Attributes
     const [showCheck, setShowCheck] = React.useState(false);
     const [showDrag, setShowDrag] = React.useState(false);
@@ -31,8 +36,8 @@ export const Task = ({ title, level, id, category_id }: ITask) => {
     // Context
     // Methods
     const getWidthByLevel = (): string => {
-        if (level == 0) return '3px';
-        return `${level * 50}px`;
+        if (task.level == 0) return '3px';
+        return `${task.level * 50}px`;
     }
     const handleMouseEnter = () => {
         setShowDrag(true)
@@ -133,7 +138,7 @@ export const Task = ({ title, level, id, category_id }: ITask) => {
                     {showBoxCheck()}
                     <Text
                     >
-                        {title}
+                        {task.title}
                     </Text>
                     <Box w='3px' />
                 </HStack>
