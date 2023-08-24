@@ -124,6 +124,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       let cats = copyCategories(categories);
       const taskId = Math.random() * 100000;
       let tasks = copyTasks(cats[id].tasks);
+      
       tasks.push({
          title: taskTitle,
          category_id: id,

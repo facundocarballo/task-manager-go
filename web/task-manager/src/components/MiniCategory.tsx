@@ -38,7 +38,7 @@ export const MiniCategory = ({ cat }: IMiniCategory) => {
                 <AlertDialogOverlay>
                     <AlertDialogContent >
                         <AlertDialogHeader bg={`#${cat.color}`} fontSize='lg' fontWeight='bold'>
-                            {cat.title}
+                            Category
                         </AlertDialogHeader>
                         <AlertDialogCloseButton />
 

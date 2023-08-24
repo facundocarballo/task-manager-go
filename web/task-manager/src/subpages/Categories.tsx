@@ -1,4 +1,4 @@
-import { Box, Button, Grid, GridItem, HStack, Heading, Spacer, Text, VStack, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, HStack, Heading, Spacer, VStack, useDisclosure } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -9,7 +9,7 @@ import {
     AlertDialogCloseButton,
 } from '@chakra-ui/react'
 import React from 'react';
-import { Category, ICategory } from '../components/Category';
+import { ICategory } from '../components/Category';
 import { useProvider } from '../context';
 import { copyCategories } from '../handlers/categories';
 import { handleDragAndDrop } from '../handlers/dragAndDrop';
@@ -44,7 +44,7 @@ export const Categories = () => {
     const handleCreateCategory = () => {
         if (categories == null) return;
         let cats = copyCategories(categories);
-        const catId = Math.random() * 100000;
+        const catId = cats.length;
         cats.push({
             color: newColor,
             description: newDescription,
@@ -53,6 +53,7 @@ export const Categories = () => {
             tasks: []
         });
         setCategories(cats);
+        onClose();
     };
     // Component
     return (
@@ -105,23 +106,6 @@ export const Categories = () => {
                     {
                         categories == null ? null :
                             categories.map((cat, idx) =>
-                                // <HStack
-                                //     key={idx}
-                                //     draggable
-                                //     onDragStart={() => { catDrag.current = idx }}
-                                //     onDragEnter={() => { catDrop.current = idx }}
-                                //     onDragEnd={handleOnDragEnd}
-                                // >
-
-                                //     <Category
-                                //         key={idx}
-                                //         title={cat.title}
-                                //         description={cat.description}
-                                //         color={cat.color}
-                                //         tasks={cat.tasks}
-                                //         id={cat.id}
-                                //     />
-                                // </HStack>
                                 <GridItem>
                                     <MiniCategory cat={cat} />
                                 </GridItem>
