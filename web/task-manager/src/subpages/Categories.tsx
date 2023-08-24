@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Heading, Spacer, VStack, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, HStack, Heading, Spacer, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -97,35 +97,40 @@ export const Categories = () => {
                     </Button>
                     <Box w='20px' />
                 </HStack>
-                <HStack
-                    w='full'
-                    overflowX='scroll'
+                <Grid
+                    templateColumns='repeat(3, 1fr)'
+                    gap={6}
                 >
                     <Box w='10px' />
                     {
                         categories == null ? null :
                             categories.map((cat, idx) =>
-                                <HStack
-                                    key={idx}
-                                    draggable
-                                    onDragStart={() => { catDrag.current = idx }}
-                                    onDragEnter={() => { catDrop.current = idx }}
-                                    onDragEnd={handleOnDragEnd}
-                                >
+                                // <HStack
+                                //     key={idx}
+                                //     draggable
+                                //     onDragStart={() => { catDrag.current = idx }}
+                                //     onDragEnter={() => { catDrop.current = idx }}
+                                //     onDragEnd={handleOnDragEnd}
+                                // >
 
-                                    <Category
-                                        key={idx}
-                                        title={cat.title}
-                                        description={cat.description}
-                                        color={cat.color}
-                                        tasks={cat.tasks}
-                                        id={cat.id}
-                                    />
-                                </HStack>
+                                //     <Category
+                                //         key={idx}
+                                //         title={cat.title}
+                                //         description={cat.description}
+                                //         color={cat.color}
+                                //         tasks={cat.tasks}
+                                //         id={cat.id}
+                                //     />
+                                // </HStack>
+                                <GridItem w='100%' bg='blue.500'>
+                                    <VStack w='250px' h='200px' bg='blue.400'>
+                                        <Text>{cat.title} {idx}</Text>
+                                    </VStack>
+                                </GridItem>
                             )
                     }
                     <Box w='10px' />
-                </HStack>
+                </Grid>
             </VStack>
         </>
     );
