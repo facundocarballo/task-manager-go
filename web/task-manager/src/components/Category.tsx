@@ -121,7 +121,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
    const handleCreateTask = () => {
       if (categories == null) return;
       let cats = copyCategories(categories);
-      const taskId = cats[id].tasks[cats[id].tasks.length - 1].id + 1;
+      const taskId = Math.random() * 100000;
       let tasks = copyTasks(cats[id].tasks);
       tasks.push({
          title: taskTitle,
