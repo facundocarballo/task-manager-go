@@ -12,3 +12,11 @@ export const getNumberOfTasks = (tasks: ITask[]): number => {
 
     return amount;
 }
+
+export const copyTasks = (tasks: ITask[]): ITask[] => {
+    let nTasks: ITask[] = [];
+    for (const task of tasks) {
+        nTasks.push(task)
+    }
+    return nTasks;
+}

@@ -14,7 +14,8 @@ import { ITask, Task } from './Task';
 import { useProvider } from '../context';
 import { handleDragAndDrop } from '../handlers/dragAndDrop';
 import { copyCategories } from '../handlers/categories';
-import { getNumberOfTasks } from '../handlers/task';
+import { copyTasks, getNumberOfTasks } from '../handlers/task';
+import { InputInfo } from './InputInfo';
 
 
 export interface ICategory {
@@ -30,6 +31,11 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
    const taskDraggable = React.useRef<any>(null);
    const taskReplaced = React.useRef<any>(null);
    const [showDragIcon, setShowDragIcon] = React.useState<boolean>(false);
+   // Create Task
+   const [createTaskIsOpen, setCreateTaskIsOpen] = React.useState<boolean>(false);
+   const [taskTitle, setTaskTitle] = React.useState<string>('');
+   const [taskDescription, setTaskDescription] = React.useState<string>('');
+   const [taskEndDate, setTaskEndDate] = React.useState<Date>(new Date());
    // Alert Dialog
    const { isOpen, onOpen, onClose } = useDisclosure()
    const cancelRef = React.useRef(null)
@@ -102,13 +108,37 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
    const handleMouseEnter = () => {
       setShowDragIcon(true)
    }
+
    const handleMouseLeave = () => {
       setShowDragIcon(false)
+   }
+
+   const handleSetDate = (e: string) => {
+      const date = new Date(e);
+      setTaskEndDate(date);
+   };
+
+   const handleCreateTask = () => {
+      if (categories == null) return;
+      let cats = copyCategories(categories);
+      const taskId = cats[id].tasks[cats[id].tasks.length - 1].id + 1;
+      let tasks = copyTasks(cats[id].tasks);
+      tasks.push({
+         title: taskTitle,
+         category_id: id,
+         level: 0,
+         subtasks: null,
+         id: taskId
+      });
+      cats[id].tasks = tasks;
+      setCategories(cats);
+      setCreateTaskIsOpen(false);
    }
 
    // Component
    return (
       <>
+         {/* Alert Dialog - Category Info */}
          <AlertDialog
             isOpen={isOpen}
             leastDestructiveRef={cancelRef}
@@ -134,6 +164,52 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
             </AlertDialogOverlay>
          </AlertDialog>
 
+         {/* Alert Dialog - Create Task */}
+         <AlertDialog
+            isOpen={createTaskIsOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={() => setCreateTaskIsOpen(false)}
+         >
+            <AlertDialogOverlay>
+               <AlertDialogContent>
+                  <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                     Create Task
+                  </AlertDialogHeader>
+                  <AlertDialogCloseButton />
+
+                  <AlertDialogBody>
+                     <InputInfo
+                        title='Title'
+                        placeholder='Task Title'
+                        value={taskTitle}
+                        type='text'
+                        handler={setTaskTitle}
+                     />
+                     <InputInfo
+                        title='Description'
+                        placeholder='Task Description'
+                        value={taskDescription}
+                        type='text'
+                        handler={setTaskDescription}
+                     />
+                     <InputInfo
+                        value={undefined}
+                        title='Deadline'
+                        placeholder="Task Deadline"
+                        type='datetime-local'
+                        handler={handleSetDate}
+                     />
+                  </AlertDialogBody>
+
+                  <AlertDialogFooter>
+                     <Button variant='primary' onClick={handleCreateTask} ml={3}>
+                        Create Task
+                     </Button>
+                  </AlertDialogFooter>
+               </AlertDialogContent>
+            </AlertDialogOverlay>
+         </AlertDialog>
+
          <VStack
             minH='400px'
             maxH='400px'
@@ -143,10 +219,10 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
             borderRadius='10px'
             overflowY='scroll'
          >
-            <HStack 
-            w='full'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            <HStack
+               w='full'
+               onMouseEnter={handleMouseEnter}
+               onMouseLeave={handleMouseLeave}
             >
                {handleShowDragIcon()}
                <Box w='10px' />
@@ -157,7 +233,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                   {title} ({getNumberOfTasks(tasks)})
                </Text>
                <Spacer />
-               <Button variant='info' bg={`#${color}`} onClick={onOpen}>
+               <Button variant='info' bg={`#${color}`} onClick={() => setCreateTaskIsOpen(true)}>
                   <EditIcon />
                </Button>
                <Button variant='info' bg={`#${color}`} onClick={onOpen}>
@@ -182,10 +258,6 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                })
             }
             <Spacer />
-            <Text>
-               {tasks.length} Task{tasks.length > 1 ? 's' : null} to do
-            </Text>
-            <Box h='3px' />
          </VStack>
       </>
    );

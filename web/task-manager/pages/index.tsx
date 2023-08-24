@@ -18,8 +18,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <TheDivider horizontal={true} />
-      <InputTask />
+      {/* <TheDivider horizontal={true} /> */}
+      {/* <InputTask /> */}
       {/* <TheDivider horizontal={true} /> */}
       {/* <Tasks /> */}
       <TheDivider horizontal={true} />

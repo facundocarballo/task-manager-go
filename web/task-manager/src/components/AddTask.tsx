@@ -16,7 +16,6 @@ export const AddTask = () => {
   // Attributes
   const [taskTitle, setTaskTitle] = React.useState<string>('');
   const [taskDescription, setTaskDescription] = React.useState<string>('');
-  const [showTask, setShowTask] = React.useState<boolean>(false);
   const [taskEndDate, setTaskEndDate] = React.useState<Date>(new Date());
   // Alert Dialog
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -26,7 +25,6 @@ export const AddTask = () => {
   // Context
   // Methods
   const handleAddTaskTitle = async () => {
-    setShowTask(true);
   }
   const handleAddInfo = () => {
     setIsOpen(true);
