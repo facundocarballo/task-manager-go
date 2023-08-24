@@ -14,6 +14,7 @@ import { useProvider } from '../context';
 import { copyCategories } from '../handlers/categories';
 import { handleDragAndDrop } from '../handlers/dragAndDrop';
 import { CreateCategory } from '../components/CreateCategory';
+import { MiniCategory } from '../components/MiniCategory';
 
 export const Categories = () => {
     // Attributes
@@ -101,7 +102,6 @@ export const Categories = () => {
                     templateColumns='repeat(3, 1fr)'
                     gap={6}
                 >
-                    <Box w='10px' />
                     {
                         categories == null ? null :
                             categories.map((cat, idx) =>
@@ -122,14 +122,11 @@ export const Categories = () => {
                                 //         id={cat.id}
                                 //     />
                                 // </HStack>
-                                <GridItem w='100%' bg='blue.500'>
-                                    <VStack w='250px' h='200px' bg='blue.400'>
-                                        <Text>{cat.title} {idx}</Text>
-                                    </VStack>
+                                <GridItem>
+                                    <MiniCategory cat={cat} />
                                 </GridItem>
                             )
                     }
-                    <Box w='10px' />
                 </Grid>
             </VStack>
         </>

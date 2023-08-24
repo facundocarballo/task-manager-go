@@ -1,5 +1,5 @@
 import { DragHandleIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
-import { Box, Button, HStack, Spacer, Text, VStack, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, HStack, Spacer, Text, VStack, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import {
    AlertDialog,
    AlertDialogBody,
@@ -31,6 +31,7 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
    const taskDraggable = React.useRef<any>(null);
    const taskReplaced = React.useRef<any>(null);
    const [showDragIcon, setShowDragIcon] = React.useState<boolean>(false);
+   const bgIconsButton = useColorModeValue('light.bg', 'dark.bg');
    // Create Task
    const [createTaskIsOpen, setCreateTaskIsOpen] = React.useState<boolean>(false);
    const [taskTitle, setTaskTitle] = React.useState<string>('');
@@ -215,7 +216,6 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
             maxH='400px'
             minW='600px'
             maxW='600px'
-            bg={`#${color}`}
             borderRadius='10px'
             overflowY='scroll'
          >
@@ -230,13 +230,13 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                   fontSize='30px'
                   fontWeight='bold'
                >
-                  {title} ({getNumberOfTasks(tasks)})
+                  {title}
                </Text>
                <Spacer />
-               <Button variant='info' bg={`#${color}`} onClick={() => setCreateTaskIsOpen(true)}>
+               <Button variant='info' bg={bgIconsButton} onClick={() => setCreateTaskIsOpen(true)}>
                   <EditIcon />
                </Button>
-               <Button variant='info' bg={`#${color}`} onClick={onOpen}>
+               <Button variant='info' bg={bgIconsButton} onClick={onOpen}>
                   <InfoIcon />
                </Button>
             </HStack>
