@@ -22,6 +22,7 @@ export interface ITask {
     category_id: number,
     dateCreated: Date,
     dateMustEnd: Date | null,
+    dateEnded: Date | null,
     description: string | null
 }
 

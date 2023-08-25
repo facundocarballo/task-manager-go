@@ -1,3 +1,4 @@
+import { ICategory } from "../components/Category";
 import { ITask } from "../components/Task";
 
 export const getNumberOfTasks = (tasks: ITask[]): number => {
@@ -19,4 +20,20 @@ export const copyTasks = (tasks: ITask[]): ITask[] => {
         nTasks.push(task)
     }
     return nTasks;
+}
+
+export const getAllTaskCompleted = (categories: ICategory[]): ITask[] => {
+    let taskCompleted = [];
+
+    for (const cat of categories) {
+        for (const task of cat.tasksCompleted) {
+            taskCompleted.push(task);
+        }
+    }
+
+    return taskCompleted;
+}
+
+export const sortTaskByDate = (tasks: ITask[]): ITask[] => {
+    return tasks.sort((a, b) => b.dateCreated.getTime() - a.dateCreated.getTime());
 }

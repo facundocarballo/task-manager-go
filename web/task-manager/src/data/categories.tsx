@@ -8,8 +8,9 @@ export const DATA_TASKS: ITask[] = [
         subtasks: null,
         id: 0,
         category_id: 0,
-        dateCreated: new Date(),
+        dateCreated: new Date("2023-08-11"),
         dateMustEnd: new Date("2023-10-30"),
+        dateEnded: new Date("2023-09-24"),
         description: "Description of the task...."
         
     },
@@ -25,6 +26,7 @@ export const DATA_TASKS: ITask[] = [
                 category_id: 0,
                 dateCreated: new Date(),
                 dateMustEnd: new Date("2023-10-30"),
+                dateEnded: new Date("2023-09-24"),
                 description: "Description of the task...."
             }
         ],
@@ -32,6 +34,7 @@ export const DATA_TASKS: ITask[] = [
         category_id: 0,
         dateCreated: new Date(),
         dateMustEnd: new Date("2023-10-30"),
+        dateEnded: new Date("2023-09-24"),
         description: "Description of the task...."
     },
 
@@ -47,6 +50,7 @@ export const DATA_TASKS: ITask[] = [
                 category_id: 0,
                 dateCreated: new Date(),
                 dateMustEnd: new Date("2023-10-30"),
+                dateEnded: new Date("2023-09-24"),
                 description: "Description of the task...."
             },
             {
@@ -61,6 +65,7 @@ export const DATA_TASKS: ITask[] = [
                         category_id: 0,
                         dateCreated: new Date(),
                         dateMustEnd: new Date("2023-10-30"),
+                        dateEnded: new Date("2023-09-24"),
                         description: "Description of the task...."
                     },
                 ],
@@ -68,6 +73,7 @@ export const DATA_TASKS: ITask[] = [
                 category_id: 0,
                 dateCreated: new Date(),
                 dateMustEnd: new Date("2023-10-30"),
+                dateEnded: new Date("2023-09-24"),
                 description: "Description of the task...."
             },
             {
@@ -78,6 +84,7 @@ export const DATA_TASKS: ITask[] = [
                 category_id: 0,
                 dateCreated: new Date(),
                 dateMustEnd: new Date("2023-10-30"),
+                dateEnded: new Date("2023-09-24"),
                 description: "Description of the task...."
             },
             {
@@ -88,6 +95,7 @@ export const DATA_TASKS: ITask[] = [
                 category_id: 0,
                 dateCreated: new Date(),
                 dateMustEnd: new Date("2023-10-30"),
+                dateEnded: new Date("2023-09-24"),
                 description: "Description of the task...."
             },
         ],
@@ -95,6 +103,7 @@ export const DATA_TASKS: ITask[] = [
         category_id: 0,
         dateCreated: new Date(),
         dateMustEnd: new Date("2023-10-30"),
+        dateEnded: new Date("2023-09-24"),
         description: "Description of the task...."
     },
 
@@ -106,6 +115,7 @@ export const DATA_TASKS: ITask[] = [
         category_id: 0,
         dateCreated: new Date(),
         dateMustEnd: new Date("2023-10-30"),
+        dateEnded: new Date("2023-11-24"),
         description: "Description of the task...."
     }
 

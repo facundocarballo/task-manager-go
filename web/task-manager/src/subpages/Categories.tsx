@@ -50,7 +50,8 @@ export const Categories = () => {
             description: newDescription,
             title: newTitle,
             id: catId,
-            tasks: []
+            tasks: [],
+            tasksCompleted: []
         });
         setCategories(cats);
         onClose();
