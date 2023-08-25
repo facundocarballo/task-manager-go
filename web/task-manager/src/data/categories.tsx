@@ -117,6 +117,7 @@ export const DATA_CATEGORIES: ICategory[] = [
         title: 'Home',
         description: 'Task of home',
         tasks: DATA_TASKS,
+        tasksCompleted: DATA_TASKS,
         id: 0,
     },
     {
@@ -124,6 +125,7 @@ export const DATA_CATEGORIES: ICategory[] = [
         title: 'Work',
         description: 'Task of Work',
         tasks: DATA_TASKS,
+        tasksCompleted: [],
         id: 1,
     },
     {
@@ -131,12 +133,14 @@ export const DATA_CATEGORIES: ICategory[] = [
         title: 'YouTube',
         description: 'Task of YouTube',
         tasks: DATA_TASKS,
+        tasksCompleted: DATA_TASKS,
         id: 2,
     },
     {
         color: '68D391',
         title: 'Personal Projects',
         description: 'Task of Personal Projects',
+        tasksCompleted: DATA_TASKS,
         tasks: DATA_TASKS,
         id: 3,
     },
@@ -144,6 +148,7 @@ export const DATA_CATEGORIES: ICategory[] = [
         color: '4FD1C5',
         title: 'University',
         description: 'Task of University',
+        tasksCompleted: [],
         tasks: DATA_TASKS,
         id: 4,
     },
@@ -151,6 +156,7 @@ export const DATA_CATEGORIES: ICategory[] = [
         color: '63B3ED',
         title: 'Gym',
         description: 'Task of Gym',
+        tasksCompleted: DATA_TASKS,
         tasks: DATA_TASKS,
         id: 5,
     }

@@ -24,6 +24,7 @@ export interface ICategory {
    title: string,
    description: string,
    tasks: ITask[],
+   tasksCompleted: ITask[],
    color: string,
 }
 
@@ -122,7 +123,10 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
          category_id: id,
          level: 0,
          subtasks: null,
-         id: taskId
+         id: taskId,
+         dateCreated: new Date(),
+         dateMustEnd: taskEndDate,
+         description: description
       });
       cats[id].tasks = tasks;
       setCategories(cats);
