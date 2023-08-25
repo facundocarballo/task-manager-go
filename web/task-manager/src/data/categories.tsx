@@ -7,7 +7,11 @@ export const DATA_TASKS: ITask[] = [
         level: 0,
         subtasks: null,
         id: 0,
-        category_id: 0
+        category_id: 0,
+        dateCreated: new Date(),
+        dateMustEnd: new Date("2023-10-30"),
+        description: "Description of the task...."
+        
     },
     {
         title: 'Task 2',
@@ -18,11 +22,17 @@ export const DATA_TASKS: ITask[] = [
                 level: 1,
                 subtasks: null,
                 id: 2,
-                category_id: 0
+                category_id: 0,
+                dateCreated: new Date(),
+                dateMustEnd: new Date("2023-10-30"),
+                description: "Description of the task...."
             }
         ],
         id: 1,
-        category_id: 0
+        category_id: 0,
+        dateCreated: new Date(),
+        dateMustEnd: new Date("2023-10-30"),
+        description: "Description of the task...."
     },
 
     {
@@ -34,7 +44,10 @@ export const DATA_TASKS: ITask[] = [
                 level: 1,
                 subtasks: null,
                 id: 4,
-                category_id: 0
+                category_id: 0,
+                dateCreated: new Date(),
+                dateMustEnd: new Date("2023-10-30"),
+                description: "Description of the task...."
             },
             {
                 title: 'Task 3.2',
@@ -45,29 +58,44 @@ export const DATA_TASKS: ITask[] = [
                         level: 2,
                         subtasks: null,
                         id: 6,
-                        category_id: 0
+                        category_id: 0,
+                        dateCreated: new Date(),
+                        dateMustEnd: new Date("2023-10-30"),
+                        description: "Description of the task...."
                     },
                 ],
                 id: 5,
-                category_id: 0
+                category_id: 0,
+                dateCreated: new Date(),
+                dateMustEnd: new Date("2023-10-30"),
+                description: "Description of the task...."
             },
             {
                 title: 'Task 3.3',
                 level: 1,
                 subtasks: null,
                 id: 7,
-                category_id: 0
+                category_id: 0,
+                dateCreated: new Date(),
+                dateMustEnd: new Date("2023-10-30"),
+                description: "Description of the task...."
             },
             {
                 title: 'Task 3.4',
                 level: 1,
                 subtasks: null,
                 id: 8,
-                category_id: 0
+                category_id: 0,
+                dateCreated: new Date(),
+                dateMustEnd: new Date("2023-10-30"),
+                description: "Description of the task...."
             },
         ],
         id: 3,
-        category_id: 0
+        category_id: 0,
+        dateCreated: new Date(),
+        dateMustEnd: new Date("2023-10-30"),
+        description: "Description of the task...."
     },
 
     {
@@ -75,7 +103,10 @@ export const DATA_TASKS: ITask[] = [
         level: 0,
         subtasks: null,
         id: 9,
-        category_id: 0
+        category_id: 0,
+        dateCreated: new Date(),
+        dateMustEnd: new Date("2023-10-30"),
+        description: "Description of the task...."
     }
 
 ];

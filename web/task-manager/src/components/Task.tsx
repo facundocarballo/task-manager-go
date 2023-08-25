@@ -1,5 +1,5 @@
-import { CheckIcon, DragHandleIcon } from '@chakra-ui/icons';
-import { HStack, VStack, Box, Text, useDisclosure, Divider, Center } from '@chakra-ui/react';
+import { CheckIcon, DragHandleIcon, InfoIcon } from '@chakra-ui/icons';
+import { HStack, VStack, Box, Text, useDisclosure, Divider, Center, Button, Spacer } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -11,13 +11,18 @@ import {
 } from '@chakra-ui/react'
 import React, { ReactElement } from 'react';
 import { useProvider } from '../context';
+import { TaskInfo } from './TaskInfo';
+import { getStringDate } from '../handlers/date';
 
 export interface ITask {
     title: string,
     level: number,
     subtasks: ITask[] | null,
     id: number,
-    category_id: number
+    category_id: number,
+    dateCreated: Date,
+    dateMustEnd: Date | null,
+    description: string | null
 }
 
 interface ITaskProps {
@@ -26,9 +31,9 @@ interface ITaskProps {
 
 export const Task = ({ task }: ITaskProps) => {
     // Attributes
-    const [showCheck, setShowCheck] = React.useState(false);
-    const [showDrag, setShowDrag] = React.useState(false);
-
+    const [showCheck, setShowCheck] = React.useState<boolean>(false);
+    const [showDrag, setShowDrag] = React.useState<boolean>(false);
+    const [showInfoBtn, setShowInfoBtn] = React.useState<boolean>(false);
     // AlertDialog Attributes
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
@@ -40,10 +45,12 @@ export const Task = ({ task }: ITaskProps) => {
         return `${task.level * 50}px`;
     }
     const handleMouseEnter = () => {
-        setShowDrag(true)
+        setShowDrag(true);
+        setShowInfoBtn(true);
     }
     const handleMouseLeave = () => {
-        setShowDrag(false)
+        setShowDrag(false);
+        setShowInfoBtn(false);
     }
     const handleShowChcek = () => {
         setShowCheck(!showCheck)
@@ -100,10 +107,21 @@ export const Task = ({ task }: ITaskProps) => {
             />
         )
     }
+    const handleShowInfoBtn = (): ReactElement<any> | null => {
+        if (showInfoBtn) {
+            return (
+                <Button variant='info' onClick={onOpen}>
+                    <InfoIcon />
+                </Button>
+            )
+        }
 
+        return null;
+    }
     // Component
     return (
         <>
+            {/* Alert Dialog - Task Info */}
             <AlertDialog
                 isOpen={isOpen}
                 leastDestructiveRef={cancelRef}
@@ -112,12 +130,24 @@ export const Task = ({ task }: ITaskProps) => {
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                            Task Title
+                            {task.title}
                         </AlertDialogHeader>
                         <AlertDialogCloseButton />
 
                         <AlertDialogBody>
-                            Are you sure? You can't undo this action afterwards.
+                            <TaskInfo
+                                title="Description"
+                                value={task.description}
+                            />
+                            <TaskInfo
+                                title="Date Created"
+                                value={getStringDate(task.dateCreated)}
+                            />
+                            <TaskInfo
+                                title="Date Must End"
+                                value={getStringDate(task.dateMustEnd)}
+                            />
+
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
@@ -140,6 +170,8 @@ export const Task = ({ task }: ITaskProps) => {
                     >
                         {task.title}
                     </Text>
+                    <Spacer />
+                    {handleShowInfoBtn()}
                     <Box w='3px' />
                 </HStack>
                 <Divider />
