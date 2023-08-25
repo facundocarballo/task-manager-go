@@ -13,11 +13,11 @@ import React, { ReactElement } from 'react';
 import { useProvider } from '../context';
 import { TaskInfo } from './TaskInfo';
 import { getStringDate } from '../handlers/date';
+import { taskCompleted } from '../handlers/task';
+import { copyCategories } from '../handlers/categories';
 
 export interface ITask {
     title: string,
-    level: number,
-    subtasks: ITask[] | null,
     id: number,
     category_id: number,
     dateCreated: Date,
@@ -40,11 +40,8 @@ export const Task = ({ task }: ITaskProps) => {
     const cancelRef = React.useRef(null)
 
     // Context
+    const { categories, setCategories } = useProvider();
     // Methods
-    const getWidthByLevel = (): string => {
-        if (task.level == 0) return '3px';
-        return `${task.level * 50}px`;
-    }
     const handleMouseEnter = () => {
         setShowDrag(true);
         setShowInfoBtn(true);
@@ -53,8 +50,15 @@ export const Task = ({ task }: ITaskProps) => {
         setShowDrag(false);
         setShowInfoBtn(false);
     }
-    const handleShowChcek = () => {
-        setShowCheck(!showCheck)
+    const handleCompleteTask = () => {
+        if (categories == null) return;
+        let cats = copyCategories(categories);
+        const tasks = taskCompleted(task, cats[task.category_id].tasks);
+        cats[task.category_id].tasks = tasks;
+        task.dateEnded = new Date();
+        cats[task.category_id].tasksCompleted.push(task);
+
+        setCategories(cats);
     }
 
     // SubComponents    
@@ -77,37 +81,7 @@ export const Task = ({ task }: ITaskProps) => {
             <Box w='30px' />
         </>;
     }
-    const showBoxCheck = (): ReactElement<any> | null => {
-        if (showCheck) {
-            return <Box
-                minW='35px'
-                maxW='35px'
-                minH='35px'
-                maxH='35px'
-                border='1px solid'
-                borderRadius='10px'
-                onClick={handleShowChcek}
-                cursor='pointer'
-            >
-                <Center>
-                    <CheckIcon w='35px' h='30px' color='green' />
-                </Center>
-            </Box>
-        }
-
-        return (
-            <Box
-                minW='35px'
-                maxW='35px'
-                minH='35px'
-                maxH='35px'
-                border='1px solid'
-                borderRadius='10px'
-                onClick={handleShowChcek}
-                cursor='pointer'
-            />
-        )
-    }
+    
     const handleShowInfoBtn = (): ReactElement<any> | null => {
         if (showInfoBtn) {
             return (
@@ -165,8 +139,17 @@ export const Task = ({ task }: ITaskProps) => {
             >
                 <HStack w='full'>
                     {showDragIcon()}
-                    <Box w={getWidthByLevel()} />
-                    {showBoxCheck()}
+                    <Box w='3px' />
+                    <Box
+                        minW='35px'
+                        maxW='35px'
+                        minH='35px'
+                        maxH='35px'
+                        border='1px solid'
+                        borderRadius='10px'
+                        onClick={handleCompleteTask}
+                        cursor='pointer'
+                    />
                     <Text
                     >
                         {task.title}
