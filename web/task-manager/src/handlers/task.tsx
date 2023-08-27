@@ -72,7 +72,9 @@ export const getTaskFilterByAccomplishTime = (tasks: ITask[], accomplishTime: st
     }
 }
 
-export const getTaskFilterByCategory = (tasks: ITask[], categoryId: number): ITask[] => {
+export const getTaskFilterByCategory = (tasks: ITask[], categoryId: number|null): ITask[] => {
+    if (categoryId == null) return tasks;
+    
     let tasksFiltered: ITask[] = [];
 
     for (const task of tasks) {
@@ -83,6 +85,26 @@ export const getTaskFilterByCategory = (tasks: ITask[], categoryId: number): ITa
 
     return tasksFiltered;
 } 
+
+export const getTaskFilterByDate = (tasks: ITask[], firstDate: Date, endDate: Date): ITask[] => {
+    let tasksFiltered: ITask[] = [];
+
+    for (const task of tasks) {
+        if (isTaskFitInDates(task, firstDate, endDate)) {
+            tasksFiltered.push(task);
+        }
+    }
+
+    return tasksFiltered;
+} 
+
+const isTaskFitInDates = (task: ITask, firstDate: Date, endDate: Date): boolean => {
+    if (task.dateEnded == null) return false;
+    return (
+        task.dateEnded.getTime() >= firstDate.getTime() && 
+        task.dateEnded.getTime() <= endDate.getTime()
+    );
+}
 
 const taskIsAccomplishTime = (task: ITask): boolean => {
     if (task.dateEnded === null) return false;

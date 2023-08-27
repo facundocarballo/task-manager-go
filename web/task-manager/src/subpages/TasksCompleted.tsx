@@ -1,4 +1,4 @@
-import { HStack, Heading, Spacer, VStack, Box, Text, Button, useDisclosure } from '@chakra-ui/react';
+import { HStack, Heading, Spacer, VStack, Box, Text, Button, useDisclosure, Input } from '@chakra-ui/react';
 import {
     Table,
     Thead,
@@ -19,15 +19,18 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { useProvider } from '../context';
-import { getAllTaskCompleted, getTaskFilterByAccomplishTime, getTaskFilterByCategory } from '../handlers/task';
+import { getAllTaskCompleted, getTaskFilterByAccomplishTime, getTaskFilterByCategory, getTaskFilterByDate } from '../handlers/task';
 import { getStringDate } from '../handlers/date';
 import { FilterItem } from '../components/FilterItem';
 import { getCategoryIdFromName } from '../handlers/categories';
+import { FilterDate, Handler, SetFunc } from '../components/FilterDate';
 
 export const TasksCompleted = () => {
     // Attributes
     const [accomplishTime, setAccomplishTime] = React.useState<string>('Default');
     const [categoryName, setCategoryName] = React.useState<string>('Default');
+    const [firstDate, setFirstDate] = React.useState<Date>(new Date());
+    const [endDate, setEndDate] = React.useState<Date>(new Date());
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef(null);
 
@@ -52,21 +55,30 @@ export const TasksCompleted = () => {
         }
         return categoriesName;
     }
+
+    const handleSetDate: Handler = (e: string, func: SetFunc) => {
+        const date = new Date(e);
+        func(date);
+    };
+
     const filterData = () => {
         if (categories == null) return;
-        const allTasksCompleted = getAllTaskCompleted(categories);
-        const tasksFilterByAccomplishTime = getTaskFilterByAccomplishTime(allTasksCompleted, accomplishTime);
+        
         const categoryId = getCategoryIdFromName(categoryName, categories);
-        if (categoryId == null) {
-            onClose();
-            setTasksCompleted(tasksFilterByAccomplishTime);
-            return;
-        }
+
+        const allTasksCompleted = getAllTaskCompleted(categories);
+        
+        const tasksFilterByAccomplishTime = getTaskFilterByAccomplishTime(allTasksCompleted, accomplishTime);
+        
         const tasksFilterByCategory = getTaskFilterByCategory(tasksFilterByAccomplishTime, categoryId);
+        
+        const tasksFilterByDate = getTaskFilterByDate(tasksFilterByCategory, firstDate, endDate);
+        
         onClose();
-        setTasksCompleted(tasksFilterByCategory);
+        setTasksCompleted(tasksFilterByDate);
         return;
     };
+
 
     // Component
     return (
@@ -95,6 +107,12 @@ export const TasksCompleted = () => {
                                 options={getCategories()}
                                 selected={categoryName}
                                 setSelected={setCategoryName}
+                            />
+                            <FilterDate
+                                title="Date"
+                                values={[undefined, undefined]}
+                                handler={handleSetDate}
+                                setFuncs={[setFirstDate, setEndDate]}
                             />
                         </AlertDialogBody>
                         <AlertDialogFooter>
