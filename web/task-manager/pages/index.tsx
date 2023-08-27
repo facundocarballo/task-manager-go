@@ -1,13 +1,23 @@
 import Head from 'next/head';
+import React from 'react';
 import { NavBar } from '@/src/components/NavBar';
 import { TheDivider } from '@/src/components/TheDivider';
 import { Categories } from '@/src/subpages/Categories';
 import { Footer } from '@/src/subpages/Footer';
-import { Spacer, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Spacer, VStack } from '@chakra-ui/react';
 import { TasksCompleted } from '@/src/subpages/TasksCompleted';
+import { useProvider } from '@/src/context';
+import { getAllTaskCompleted } from '@/src/handlers/task';
 
 
 export default function Home() {
+  // Context
+  const { categories, setTasksCompleted } = useProvider();
+  // React Use Effect
+  React.useEffect(() => {
+    if (categories == null) return;
+    setTasksCompleted(getAllTaskCompleted(categories));
+  }, [])
   return (
     <VStack minH='100%'>
       <Head>

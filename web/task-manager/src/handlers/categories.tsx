@@ -7,3 +7,12 @@ export const copyCategories = (categories: ICategory[]): ICategory[] => {
     }
     return cats;
 }
+
+export const getCategoryIdFromName = (categoryName: string, categories: ICategory[]): number|null => {
+    for (const cat of categories) {
+        if (cat.title == categoryName) {
+            return cat.id;
+        }
+    }
+    return null;
+} 

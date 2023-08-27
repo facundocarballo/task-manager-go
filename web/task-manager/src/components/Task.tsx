@@ -1,5 +1,5 @@
-import { CheckIcon, DragHandleIcon, InfoIcon } from '@chakra-ui/icons';
-import { HStack, VStack, Box, Text, useDisclosure, Divider, Center, Button, Spacer } from '@chakra-ui/react';
+import { DragHandleIcon, InfoIcon } from '@chakra-ui/icons';
+import { HStack, VStack, Box, Text, useDisclosure, Divider, Button, Spacer } from '@chakra-ui/react';
 import {
     AlertDialog,
     AlertDialogBody,
@@ -32,7 +32,6 @@ interface ITaskProps {
 
 export const Task = ({ task }: ITaskProps) => {
     // Attributes
-    const [showCheck, setShowCheck] = React.useState<boolean>(false);
     const [showDrag, setShowDrag] = React.useState<boolean>(false);
     const [showInfoBtn, setShowInfoBtn] = React.useState<boolean>(false);
     // AlertDialog Attributes
@@ -40,7 +39,7 @@ export const Task = ({ task }: ITaskProps) => {
     const cancelRef = React.useRef(null)
 
     // Context
-    const { categories, setCategories } = useProvider();
+    const { categories, setCategories, tasksCompleted, setTasksCompleted } = useProvider();
     // Methods
     const handleMouseEnter = () => {
         setShowDrag(true);
@@ -59,6 +58,7 @@ export const Task = ({ task }: ITaskProps) => {
         cats[task.category_id].tasksCompleted.push(task);
 
         setCategories(cats);
+        setTasksCompleted([...tasksCompleted, task])
     }
 
     // SubComponents    
