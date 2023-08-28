@@ -17,6 +17,13 @@ import {
     AlertDialogOverlay,
     AlertDialogCloseButton,
 } from '@chakra-ui/react';
+import {
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+} from '@chakra-ui/react';
 import React from 'react';
 import { useProvider } from '../context';
 import { getAllTaskCompleted, getTaskFilterByAccomplishTime, getTaskFilterByCategory, getTaskFilterByDate } from '../handlers/task';
@@ -29,8 +36,8 @@ export const TasksCompleted = () => {
     // Attributes
     const [accomplishTime, setAccomplishTime] = React.useState<string>('Default');
     const [categoryName, setCategoryName] = React.useState<string>('Default');
-    const [firstDate, setFirstDate] = React.useState<Date|null>(null);
-    const [endDate, setEndDate] = React.useState<Date|null>(new Date());
+    const [firstDate, setFirstDate] = React.useState<Date | null>(null);
+    const [endDate, setEndDate] = React.useState<Date | null>(new Date());
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef(null);
 
@@ -70,11 +77,11 @@ export const TasksCompleted = () => {
         const allTasksCompleted = getAllTaskCompleted(categories);
 
         const tasksFilterByAccomplishTime = getTaskFilterByAccomplishTime(allTasksCompleted, accomplishTime);
-        
+
         const tasksFilterByCategory = getTaskFilterByCategory(tasksFilterByAccomplishTime, categoryId);
-        
+
         const tasksFilterByDate = getTaskFilterByDate(tasksFilterByCategory, firstDate, endDate);
-        
+
         onClose();
         setTasksCompleted(tasksFilterByDate);
         return;
@@ -125,44 +132,56 @@ export const TasksCompleted = () => {
                 </AlertDialogOverlay>
             </AlertDialog>
 
-            <VStack w='full'>
-                <HStack w='full'>
-                    <Box w='10px' />
-                    <Heading>{tasksCompleted.length} Task{tasksCompleted.length > 1 ? 's' : null} Completed</Heading>
-                    <Spacer />
-                    <Button variant='secundary' onClick={onOpen}>
-                        FILTER
-                    </Button>
-                    <Box w='10px' />
-                </HStack>
-                <TableContainer>
-                    <Table variant='simple'>
-                        <Thead>
-                            <Tr>
-                                <Th>Task Title</Th>
-                                <Th>Date Created</Th>
-                                <Th>Date Ended</Th>
-                                <Th>Accomplish Time</Th>
-                                <Th>Category</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {
-                                tasksCompleted.map((task) => (
-                                    <Tr>
-                                        <Td>{task.title}</Td>
-                                        <Td>{getStringDate(task.dateCreated)}</Td>
-                                        <Td>{getStringDate(task.dateEnded)}</Td>
-                                        <Td>{showCorrectIcon(task.dateMustEnd?.getTime(), task.dateEnded?.getTime())}</Td>
-                                        <Td>{getCategoryName(task.category_id)}</Td>
-                                    </Tr>
-                                )
-                                )
-                            }
-                        </Tbody>
-                    </Table>
-                </TableContainer>
-            </VStack>
+            <Accordion w='full' allowToggle>
+                <AccordionItem w='full'>
+                    <AccordionButton>
+                        <Box as="span" flex='1' textAlign='left'>
+                            <Heading>{tasksCompleted.length} Task{tasksCompleted.length > 1 ? 's' : null} Completed</Heading>
+                        </Box>
+                        <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+
+                        <VStack w='full'>
+                            <HStack w='full'>
+                                <Spacer />
+                                <Button variant='secundary' onClick={onOpen}>
+                                    FILTER
+                                </Button>
+                                <Box w='10px' />
+                            </HStack>
+                            <TableContainer>
+                                <Table variant='simple'>
+                                    <Thead>
+                                        <Tr>
+                                            <Th>Task Title</Th>
+                                            <Th>Date Created</Th>
+                                            <Th>Date Ended</Th>
+                                            <Th>Accomplish Time</Th>
+                                            <Th>Category</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {
+                                            tasksCompleted.map((task) => (
+                                                <Tr>
+                                                    <Td>{task.title}</Td>
+                                                    <Td>{getStringDate(task.dateCreated)}</Td>
+                                                    <Td>{getStringDate(task.dateEnded)}</Td>
+                                                    <Td>{showCorrectIcon(task.dateMustEnd?.getTime(), task.dateEnded?.getTime())}</Td>
+                                                    <Td>{getCategoryName(task.category_id)}</Td>
+                                                </Tr>
+                                            )
+                                            )
+                                        }
+                                    </Tbody>
+                                </Table>
+                            </TableContainer>
+                        </VStack>
+                    </AccordionPanel>
+                </AccordionItem>
+            </Accordion>
+
         </>
     );
 }
