@@ -1,3 +1,4 @@
+import React from 'react';
 import { HStack, Heading, Spacer, VStack, Box, Text, Button, useDisclosure } from '@chakra-ui/react';
 import {
     Table,
@@ -17,37 +18,25 @@ import {
     AlertDialogOverlay,
     AlertDialogCloseButton,
 } from '@chakra-ui/react';
-import React from 'react';
 import { useProvider } from '../context';
-import { getAllTaskCompleted, getTaskFilterByAccomplishTime, getTaskFilterByCategory, getTaskFilterByDate } from '../handlers/task';
 import { getStringDate } from '../handlers/date';
 import { FilterItem } from '../components/FilterItem';
-import { getCategoryIdFromName } from '../handlers/categories';
 import { FilterDate, Handler, SetFunc } from '../components/FilterDate';
+import { getCategoryIdFromName } from '../handlers/categories';
+import { getAllTaskDeleted, getTaskFilterByCategory, getTaskFilterByDate } from '../handlers/task';
 
-export const TasksCompleted = () => {
+
+export const TasksDeleted = () => {
     // Attributes
-    const [accomplishTime, setAccomplishTime] = React.useState<string>('Default');
     const [categoryName, setCategoryName] = React.useState<string>('Default');
     const [firstDate, setFirstDate] = React.useState<Date|null>(null);
-    const [endDate, setEndDate] = React.useState<Date|null>(new Date());
+    const [endDate, setEndDate] = React.useState<Date|null>(null);
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef(null);
-
     // Context
-    const { categories, tasksCompleted, setTasksCompleted } = useProvider();
-
+    const { categories, tasksDeleted, setTasksDeleted } = useProvider();
     // Methods
-    const showCorrectIcon = (timeExpected: number | undefined, timeReal: number | undefined) => {
-        if (timeReal == undefined) return <Text>🚫</Text>
-        if (timeExpected == undefined) return <Text>✅</Text>
-        if (timeReal > timeExpected) return <Text>🚫</Text>
-        return <Text>✅</Text>
-    }
-    const getCategoryName = (id: number): string => {
-        if (categories == null) return "Don't found category with that id";
-        return categories[id].title
-    }
     const getCategories = (): string[] => {
         if (categories == null) return [];
         const categoriesName: string[] = ['Default'];
@@ -56,31 +45,29 @@ export const TasksCompleted = () => {
         }
         return categoriesName;
     }
-
+    const getCategoryName = (id: number): string => {
+        if (categories == null) return "Don't found category with that id";
+        return categories[id].title
+    }
     const handleSetDate: Handler = (e: string, func: SetFunc) => {
         const date = new Date(e);
         func(date);
     };
-
     const filterData = () => {
         if (categories == null) return;
 
         const categoryId = getCategoryIdFromName(categoryName, categories);
 
-        const allTasksCompleted = getAllTaskCompleted(categories);
+        const allTasksDeleted = getAllTaskDeleted(categories);
 
-        const tasksFilterByAccomplishTime = getTaskFilterByAccomplishTime(allTasksCompleted, accomplishTime);
-        
-        const tasksFilterByCategory = getTaskFilterByCategory(tasksFilterByAccomplishTime, categoryId);
-        
+        const tasksFilterByCategory = getTaskFilterByCategory(allTasksDeleted, categoryId);
+
         const tasksFilterByDate = getTaskFilterByDate(tasksFilterByCategory, firstDate, endDate);
-        
+
         onClose();
-        setTasksCompleted(tasksFilterByDate);
+        setTasksDeleted(tasksFilterByDate);
         return;
     };
-
-
     // Component
     return (
         <>
@@ -97,12 +84,6 @@ export const TasksCompleted = () => {
                         <AlertDialogCloseButton />
 
                         <AlertDialogBody>
-                            <FilterItem
-                                title='Accomplish Time'
-                                options={['Default', '✅ YES', '🚫 NO']}
-                                selected={accomplishTime}
-                                setSelected={setAccomplishTime}
-                            />
                             <FilterItem
                                 title='Category'
                                 options={getCategories()}
@@ -128,7 +109,7 @@ export const TasksCompleted = () => {
             <VStack w='full'>
                 <HStack w='full'>
                     <Box w='10px' />
-                    <Heading>{tasksCompleted.length} Task{tasksCompleted.length > 1 ? 's' : null} Completed</Heading>
+                    <Heading>{tasksDeleted.length} Task{tasksDeleted.length > 1 ? 's' : null} Deleted</Heading>
                     <Spacer />
                     <Button variant='secundary' onClick={onOpen}>
                         FILTER
@@ -141,19 +122,17 @@ export const TasksCompleted = () => {
                             <Tr>
                                 <Th>Task Title</Th>
                                 <Th>Date Created</Th>
-                                <Th>Date Ended</Th>
-                                <Th>Accomplish Time</Th>
+                                <Th>Date Deleted</Th>
                                 <Th>Category</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
                             {
-                                tasksCompleted.map((task) => (
+                                tasksDeleted.map((task) => (
                                     <Tr>
                                         <Td>{task.title}</Td>
                                         <Td>{getStringDate(task.dateCreated)}</Td>
                                         <Td>{getStringDate(task.dateEnded)}</Td>
-                                        <Td>{showCorrectIcon(task.dateMustEnd?.getTime(), task.dateEnded?.getTime())}</Td>
                                         <Td>{getCategoryName(task.category_id)}</Td>
                                     </Tr>
                                 )

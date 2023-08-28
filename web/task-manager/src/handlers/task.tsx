@@ -31,11 +31,23 @@ export const getAllTaskCompleted = (categories: ICategory[]): ITask[] => {
     return sortTaskByDate(taskCompleted);
 }
 
+export const getAllTaskDeleted = (categories: ICategory[]): ITask[] => {
+    let tasksDeleted = [];
+
+    for (const cat of categories) {
+        for (const task of cat.tasksDeleted) {
+            tasksDeleted.push(task);
+        }
+    }
+
+    return sortTaskByDate(tasksDeleted);
+}
+
 export const sortTaskByDate = (tasks: ITask[]): ITask[] => {
     return tasks.sort((a, b) => b.dateCreated.getTime() - a.dateCreated.getTime());
 }
 
-export const taskCompleted = (task: ITask, tasks: ITask[]): ITask[] => {
+export const deleteTask = (task: ITask, tasks: ITask[]): ITask[] => {
     const newTasks: ITask[] = [];
 
     for (const t of tasks) {
@@ -86,9 +98,10 @@ export const getTaskFilterByCategory = (tasks: ITask[], categoryId: number|null)
     return tasksFiltered;
 } 
 
-export const getTaskFilterByDate = (tasks: ITask[], firstDate: Date, endDate: Date): ITask[] => {
-    let tasksFiltered: ITask[] = [];
+export const getTaskFilterByDate = (tasks: ITask[], firstDate: Date|null, endDate: Date|null): ITask[] => {
+    if (firstDate == null || endDate == null) return tasks;
 
+    let tasksFiltered: ITask[] = [];
     for (const task of tasks) {
         if (isTaskFitInDates(task, firstDate, endDate)) {
             tasksFiltered.push(task);

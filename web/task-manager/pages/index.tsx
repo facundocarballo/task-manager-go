@@ -18,6 +18,7 @@ import {
   AlertDialogCloseButton,
 } from '@chakra-ui/react';
 import { CreateUserForm } from '@/src/components/CreateUserForm';
+import { TasksDeleted } from '@/src/subpages/TasksDeleted';
 
 
 export default function Home() {
@@ -66,8 +67,10 @@ export default function Home() {
         <Categories />
         <TheDivider horizontal={true} />
         <TasksCompleted />
-        <Spacer />
         <TheDivider horizontal={true} />
+        <TasksDeleted />
+        <TheDivider horizontal={true} />
+        <Spacer />
         <Footer />
       </VStack>
     </>

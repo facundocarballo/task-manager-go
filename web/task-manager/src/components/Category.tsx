@@ -14,7 +14,7 @@ import { ITask, Task } from './Task';
 import { useProvider } from '../context';
 import { handleDragAndDrop } from '../handlers/dragAndDrop';
 import { copyCategories } from '../handlers/categories';
-import { copyTasks, getNumberOfTasks } from '../handlers/task';
+import { copyTasks } from '../handlers/task';
 import { InputInfo } from './InputInfo';
 import { CreateCategory } from './CreateCategory';
 
@@ -25,6 +25,7 @@ export interface ICategory {
    description: string,
    tasks: ITask[],
    tasksCompleted: ITask[],
+   tasksDeleted: ITask[],
    color: string,
 }
 
@@ -61,22 +62,6 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       );
       cats[id].tasks = tasks;
       setCategories(cats);
-   };
-   
-   const renderTasks = (task: ITask): any => {
-      if (task.subtasks == null) {
-         return (
-            <Task
-               task={task}
-            />
-         );
-      }
-      return <>
-         <Task
-            task={task}
-         />
-         {task.subtasks.map((subtask) => renderTasks(subtask))}
-      </>
    };
 
    const handleShowDragIcon = (): ReactElement<any> | null => {
@@ -121,12 +106,11 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
       tasks.push({
          title: taskTitle,
          category_id: id,
-         level: 0,
-         subtasks: null,
          id: taskId,
          dateCreated: new Date(),
          dateMustEnd: taskEndDate,
-         description: description
+         description: description,
+         dateEnded: null
       });
       cats[id].tasks = tasks;
       setCategories(cats);
@@ -297,7 +281,9 @@ export const Category = ({ title, description, tasks, color, id }: ICategory) =>
                         }}
                         onDragEnd={handleDragOnEnd}
                      >
-                        {renderTasks(task)}
+                        <Task
+                           task={task}
+                        />
                      </VStack>
                   )
                })

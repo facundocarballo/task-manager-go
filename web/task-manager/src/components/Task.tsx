@@ -1,4 +1,4 @@
-import { DragHandleIcon, InfoIcon } from '@chakra-ui/icons';
+import { DeleteIcon, DragHandleIcon, InfoIcon } from '@chakra-ui/icons';
 import { HStack, VStack, Box, Text, useDisclosure, Divider, Button, Spacer } from '@chakra-ui/react';
 import {
     AlertDialog,
@@ -13,7 +13,7 @@ import React, { ReactElement } from 'react';
 import { useProvider } from '../context';
 import { TaskInfo } from './TaskInfo';
 import { getStringDate } from '../handlers/date';
-import { taskCompleted } from '../handlers/task';
+import { deleteTask } from '../handlers/task';
 import { copyCategories } from '../handlers/categories';
 
 export interface ITask {
@@ -32,27 +32,24 @@ interface ITaskProps {
 
 export const Task = ({ task }: ITaskProps) => {
     // Attributes
-    const [showDrag, setShowDrag] = React.useState<boolean>(false);
-    const [showInfoBtn, setShowInfoBtn] = React.useState<boolean>(false);
+    const [mouseEnter, setMouseEnter] = React.useState<boolean>(false);
     // AlertDialog Attributes
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
 
     // Context
-    const { categories, setCategories, tasksCompleted, setTasksCompleted } = useProvider();
+    const { categories, setCategories, tasksCompleted, setTasksCompleted, setTasksDeleted, tasksDeleted } = useProvider();
     // Methods
     const handleMouseEnter = () => {
-        setShowDrag(true);
-        setShowInfoBtn(true);
+        setMouseEnter(true);
     }
     const handleMouseLeave = () => {
-        setShowDrag(false);
-        setShowInfoBtn(false);
+        setMouseEnter(false);
     }
     const handleCompleteTask = () => {
         if (categories == null) return;
         let cats = copyCategories(categories);
-        const tasks = taskCompleted(task, cats[task.category_id].tasks);
+        const tasks = deleteTask(task, cats[task.category_id].tasks);
         cats[task.category_id].tasks = tasks;
         task.dateEnded = new Date();
         cats[task.category_id].tasksCompleted.push(task);
@@ -60,10 +57,21 @@ export const Task = ({ task }: ITaskProps) => {
         setCategories(cats);
         setTasksCompleted([...tasksCompleted, task])
     }
+    const handleDeleteTask = () => {
+        if (categories == null) return;
+        let cats = copyCategories(categories);
+        const tasks = deleteTask(task, cats[task.category_id].tasks);
+        cats[task.category_id].tasks = tasks;
+        task.dateEnded = new Date();
+        cats[task.category_id].tasksDeleted.push(task);
+
+        setCategories(cats);
+        setTasksDeleted([...tasksDeleted, task])
+    };
 
     // SubComponents    
-    const showDragIcon = (): ReactElement<any> | null => {
-        if (showDrag) {
+    const renderDragIcon = (): ReactElement<any> | null => {
+        if (mouseEnter) {
             return (
                 <>
                     <Box w='5px' />
@@ -82,11 +90,26 @@ export const Task = ({ task }: ITaskProps) => {
         </>;
     }
     
-    const handleShowInfoBtn = (): ReactElement<any> | null => {
-        if (showInfoBtn) {
+    const renderInfoBtn = (): ReactElement<any> | null => {
+        if (mouseEnter) {
             return (
                 <Button variant='info' onClick={onOpen}>
                     <InfoIcon />
+                </Button>
+            )
+        }
+
+        return null;
+    }
+    
+    const renderDeleteBtn = (): ReactElement<any> | null => {
+        if (mouseEnter) {
+            return (
+                <Button
+                    variant='info'
+                    onClick={handleDeleteTask}
+                >
+                    <DeleteIcon />
                 </Button>
             )
         }
@@ -138,7 +161,7 @@ export const Task = ({ task }: ITaskProps) => {
                 onMouseLeave={handleMouseLeave}
             >
                 <HStack w='full'>
-                    {showDragIcon()}
+                    {renderDragIcon()}
                     <Box w='3px' />
                     <Box
                         minW='35px'
@@ -155,7 +178,8 @@ export const Task = ({ task }: ITaskProps) => {
                         {task.title}
                     </Text>
                     <Spacer />
-                    {handleShowInfoBtn()}
+                    {renderInfoBtn()}
+                    {renderDeleteBtn()}
                     <Box w='3px' />
                 </HStack>
                 <Divider />
