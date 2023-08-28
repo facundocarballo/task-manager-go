@@ -1,7 +1,8 @@
-import { Box, Text, HStack, Spacer, Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Box, Text, HStack, Spacer, Button, Input, InputGroup, InputRightElement, Divider } from '@chakra-ui/react';
 import React from 'react';
 import { InputInfo } from './InputInfo';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { TheDivider } from './TheDivider';
 
 export const CreateUserForm = () => {
     // Attributes
@@ -79,6 +80,8 @@ export const CreateUserForm = () => {
                 </InputRightElement>
             </InputGroup>
             {renderAlertPassword()}
+            <Box h='10px' />
+            <TheDivider horizontal={true} />
             <InputInfo
                 title='Email'
                 placeholder='facu@gmail.com'
