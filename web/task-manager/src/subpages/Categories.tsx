@@ -20,7 +20,7 @@ export const Categories = () => {
     // Attributes
     const [newTitle, setNewTitle] = React.useState<string>('');
     const [newDescription, setNewDescription] = React.useState<string>('');
-    const [newColor, setNewColor] = React.useState<string>('');
+    const [newColor, setNewColor] = React.useState<string>('dark.bg');
 
     const catDrag = React.useRef<any>(null);
     const catDrop = React.useRef<any>(null);
@@ -51,7 +51,8 @@ export const Categories = () => {
             title: newTitle,
             id: catId,
             tasks: [],
-            tasksCompleted: []
+            tasksCompleted: [],
+            tasksDeleted: []
         });
         setCategories(cats);
         onClose();
@@ -65,7 +66,7 @@ export const Categories = () => {
                 onClose={onClose}
             >
                 <AlertDialogOverlay>
-                    <AlertDialogContent>
+                    <AlertDialogContent bg={newColor}>
                         <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                             Create a new Category
                         </AlertDialogHeader>

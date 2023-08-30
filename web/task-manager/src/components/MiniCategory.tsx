@@ -74,6 +74,8 @@ export const MiniCategory = ({ cat }: IMiniCategory) => {
                                 id={cat.id}
                                 tasks={cat.tasks}
                                 title={cat.title}
+                                tasksCompleted={cat.tasksCompleted}
+                                tasksDeleted={cat.tasksDeleted}
                             />
                         </AlertDialogBody>
 
@@ -86,7 +88,7 @@ export const MiniCategory = ({ cat }: IMiniCategory) => {
 
             <VStack
                 w='250px'
-                bg={`#${cat.color}`}
+                bg={`${cat.color}`}
                 borderRadius='10px'
                 _hover={{
                     transform: 'scale(1.1)',
