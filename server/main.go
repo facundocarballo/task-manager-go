@@ -31,7 +31,7 @@ func main() {
 
 	// Get a specefic user -> get/user?id=10
 	http.HandleFunc("/get/user", func(w http.ResponseWriter, r *http.Request) {
-
+		get.GetUser(w, r, database)
 	})
 
 	// Get all the categories -> get/user?id=10/categories
