@@ -10,12 +10,14 @@ import (
 )
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request, database *sql.DB) {
+	// Make the Query
 	rows, err := database.Query("SELECT id, username, email FROM USER")
 	if err != nil {
 		panic(err.Error())
 	}
 	defer rows.Close()
 
+	// Iterate Rows
 	var users []types.User
 	for rows.Next() {
 		var user types.User
@@ -27,11 +29,13 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 		users = append(users, user)
 	}
 
+	// Check Error on Rows
 	if err := rows.Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	// Send response to the client
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(users)
@@ -43,12 +47,14 @@ func GetUser(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 	}
 	email := params.GetParam(params.USER_EMAIL, r)
 
+	// Make the Query
 	rows, err := database.Query("SELECT * FROM User WHERE email = " + email)
 	if err != nil {
 		panic(err.Error())
 	}
 	defer rows.Close()
 
+	// Iterate Rows
 	var users []types.User
 	for rows.Next() {
 		var user types.User
@@ -60,11 +66,13 @@ func GetUser(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 		users = append(users, user)
 	}
 
+	// Check Error on Rows
 	if err := rows.Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	// Send response to the client
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(users)
