@@ -35,13 +35,13 @@ func main() {
 	})
 
 	// Get all the categories -> get/user?id=10/categories
-	http.HandleFunc("/get/user/categories", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/get/categories", func(w http.ResponseWriter, r *http.Request) {
 		get.GetCategories(w, r, database)
 	})
 
 	// Get a specific category -> get/user?id=10/category?id=9
-	http.HandleFunc("/get/category/", func(w http.ResponseWriter, r *http.Request) {
-
+	http.HandleFunc("/get/tasks/", func(w http.ResponseWriter, r *http.Request) {
+		get.GetTasks(w, r, database)
 	})
 
 	// Post Endpoints

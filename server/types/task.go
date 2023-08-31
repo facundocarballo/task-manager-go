@@ -5,9 +5,10 @@ import (
 )
 
 type Task struct {
-	Id          int       `json:"id"`
-	Created     time.Time `json:"created"`
-	Description string    `json:"description"`
-	CreatedBy   int       `json:"created_by"`
-	Category    int       `json:"category"`
+	Id          int        `json:"id"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	Created     time.Time  `json:"created"`
+	MustEnd     *time.Time `json:"mustEnd"`
+	CategoryId  int        `json:"category"`
 }
