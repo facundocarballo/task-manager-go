@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/facundocarballo/task-manager/handlers/params"
 	"github.com/facundocarballo/task-manager/types"
 )
 
@@ -37,14 +38,12 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request, database *sql.DB) {
-	queryParams := r.URL.Query()
-	if !queryParams.Has("id") {
-		http.Error(w, "No paso como parametro un id", 404)
+	if !params.CheckParam(w, r, params.USER_EMAIL) {
 		return
 	}
-	id := queryParams.Get("id")
+	email := params.GetParam(params.USER_EMAIL, r)
 
-	rows, err := database.Query("SELECT * FROM User WHERE id = " + id)
+	rows, err := database.Query("SELECT * FROM User WHERE email = " + email)
 	if err != nil {
 		panic(err.Error())
 	}
