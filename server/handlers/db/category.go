@@ -19,3 +19,13 @@ func CreateCategory(database *sql.DB, category *types.Category) error {
 
 	return err
 }
+
+func DeleteCategory(database *sql.DB, category *types.Category) error {
+
+	_, err := database.Exec(
+		DELETE_CATEGORY_STATEMENT,
+		category.Id,
+	)
+
+	return err
+}

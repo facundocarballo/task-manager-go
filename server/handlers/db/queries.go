@@ -11,3 +11,4 @@ const INSERT_TASK_DELETED_STATEMENT = "INSERT INTO TaskDeleted (taskId, date) VA
 
 // Category
 const INSERT_CATEGORY_STATEMENT = "INSERT INTO Category (name, description, owner, colorId, parentId) VALUES (?, ?, ?, ?, ?)"
+const DELETE_CATEGORY_STATEMENT = "DELETE FROM Category WHERE id = (?)"

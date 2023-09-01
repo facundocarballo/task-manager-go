@@ -74,7 +74,7 @@ func main() {
 	})
 
 	http.HandleFunc("/post/delete-category", func(w http.ResponseWriter, r *http.Request) {
-
+		post.DeleteCategory(w, r, database)
 	})
 
 	// Listen
