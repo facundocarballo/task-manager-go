@@ -19,3 +19,13 @@ func CreateTask(database *sql.DB, task *types.Task) error {
 
 	return err
 }
+
+func CompleteTask(database *sql.DB, task *types.Task) error {
+	_, err := database.Exec(
+		INSERT_TASK_COMPLETED_STATEMENT,
+		task.Id,
+		time.Now(),
+	)
+
+	return err
+}
