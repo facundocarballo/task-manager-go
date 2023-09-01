@@ -29,17 +29,17 @@ func main() {
 		get.GetAllUsers(w, r, database)
 	})
 
-	// Get a specefic user -> get/user?id=10
+	// Get a specefic user -> get/user?userId=1
 	http.HandleFunc("/get/user", func(w http.ResponseWriter, r *http.Request) {
 		get.GetUser(w, r, database)
 	})
 
-	// Get all the categories -> get/user?id=10/categories
+	// Get all the categories -> get/categories?userId=1
 	http.HandleFunc("/get/categories", func(w http.ResponseWriter, r *http.Request) {
 		get.GetCategories(w, r, database)
 	})
 
-	// Get a specific category -> get/user?id=10/category?id=9
+	// Get a specific category -> get/tasks?categoryId=1
 	http.HandleFunc("/get/tasks/", func(w http.ResponseWriter, r *http.Request) {
 		get.GetTasks(w, r, database)
 	})
