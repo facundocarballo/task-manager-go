@@ -6,20 +6,21 @@ import (
 	"net/http"
 
 	"github.com/facundocarballo/task-manager/handlers/db"
+	"github.com/facundocarballo/task-manager/handlers/messages"
 	"github.com/facundocarballo/task-manager/types"
 )
 
 func CrateTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 	// Check Post Method
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, messages.METHOD_NOT_ALLOWED, http.StatusMethodNotAllowed)
 		return false
 	}
 
 	// Read body request
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Error reading request body", http.StatusBadRequest)
+		http.Error(w, messages.READING_REQUEST_BODY, http.StatusBadRequest)
 		return false
 	}
 	defer r.Body.Close()
@@ -27,7 +28,7 @@ func CrateTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 	// Convert the body to a Task
 	task := types.BodyToTask(body)
 	if task == nil {
-		http.Error(w, "Error transforming the body to task", http.StatusBadRequest)
+		http.Error(w, messages.READING_REQUEST_BODY, http.StatusBadRequest)
 		return false
 	}
 
@@ -38,10 +39,10 @@ func CrateTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("POST Request received correctly."))
+		w.Write([]byte(messages.POST_REQUEST_SUCCESSFUL))
 	} else {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Cannot create that task. ERROR: " + err.Error()))
+		w.Write([]byte(messages.CANNOT_CREATE_TASK + " " + err.Error()))
 	}
 
 	return true
@@ -50,14 +51,14 @@ func CrateTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 func CompleteTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 	// Check Post Method
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, messages.METHOD_NOT_ALLOWED, http.StatusMethodNotAllowed)
 		return false
 	}
 
 	// Read body request
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Error reading request body", http.StatusBadRequest)
+		http.Error(w, messages.READING_REQUEST_BODY, http.StatusBadRequest)
 		return false
 	}
 	defer r.Body.Close()
@@ -65,7 +66,7 @@ func CompleteTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool
 	// Convert the body to a Task
 	task := types.BodyToTask(body)
 	if task == nil {
-		http.Error(w, "Error transforming the body to task", http.StatusBadRequest)
+		http.Error(w, messages.READING_REQUEST_BODY, http.StatusBadRequest)
 		return false
 	}
 
@@ -76,10 +77,10 @@ func CompleteTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool
 
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("POST Request received correctly."))
+		w.Write([]byte(messages.POST_REQUEST_SUCCESSFUL))
 	} else {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Cannot complete that task. ERROR: " + err.Error()))
+		w.Write([]byte(messages.CANNOT_COMPLETE_TASK + " " + err.Error()))
 	}
 
 	return true
@@ -88,14 +89,14 @@ func CompleteTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool
 func DeleteTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 	// Check Post Method
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, messages.METHOD_NOT_ALLOWED, http.StatusMethodNotAllowed)
 		return false
 	}
 
 	// Read body request
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Error reading request body", http.StatusBadRequest)
+		http.Error(w, messages.READING_REQUEST_BODY, http.StatusBadRequest)
 		return false
 	}
 	defer r.Body.Close()
@@ -103,7 +104,7 @@ func DeleteTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 	// Convert the body to a Task
 	task := types.BodyToTask(body)
 	if task == nil {
-		http.Error(w, "Error transforming the body to task", http.StatusBadRequest)
+		http.Error(w, messages.READING_REQUEST_BODY, http.StatusBadRequest)
 		return false
 	}
 
@@ -114,10 +115,10 @@ func DeleteTask(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("POST Request received correctly."))
+		w.Write([]byte(messages.POST_REQUEST_SUCCESSFUL))
 	} else {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Cannot delete that task. ERROR: " + err.Error()))
+		w.Write([]byte(messages.CANNOT_DELETE_TASK + " " + err.Error()))
 	}
 
 	return true
