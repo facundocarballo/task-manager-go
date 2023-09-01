@@ -66,7 +66,7 @@ func main() {
 	})
 
 	http.HandleFunc("/post/delete-user", func(w http.ResponseWriter, r *http.Request) {
-
+		post.DeleteUser(w, r, database)
 	})
 
 	http.HandleFunc("/post/category", func(w http.ResponseWriter, r *http.Request) {

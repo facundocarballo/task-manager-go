@@ -18,3 +18,13 @@ func CreateUser(database *sql.DB, user *types.User) error {
 
 	return err
 }
+
+func DeleteUser(database *sql.DB, user *types.User) error {
+
+	_, err := database.Exec(
+		DELETE_USER_STATEMENT,
+		user.Id,
+	)
+
+	return err
+}
