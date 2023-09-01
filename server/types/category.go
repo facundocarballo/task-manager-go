@@ -1,5 +1,7 @@
 package types
 
+import "encoding/json"
+
 type Category struct {
 	Id          int    `json:"id"`
 	Name        string `json:"name"`
@@ -7,4 +9,19 @@ type Category struct {
 	Owner       int    `json:"owner"`
 	ColorId     int    `json:"colorId"`
 	ParentId    *int   `json:"parentId"`
+}
+
+func BodyToCategory(body []byte) *Category {
+	if len(body) == 0 {
+		return nil
+	}
+
+	var category Category
+	err := json.Unmarshal(body, &category)
+	if err != nil {
+		print("ERROR: ", err.Error())
+		return nil
+	}
+
+	return &category
 }

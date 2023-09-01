@@ -70,7 +70,7 @@ func main() {
 	})
 
 	http.HandleFunc("/post/category", func(w http.ResponseWriter, r *http.Request) {
-
+		post.CrateCategory(w, r, database)
 	})
 
 	http.HandleFunc("/post/delete-category", func(w http.ResponseWriter, r *http.Request) {
