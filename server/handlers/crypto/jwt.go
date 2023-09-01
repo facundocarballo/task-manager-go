@@ -37,7 +37,7 @@ func ValidateJWT(tokenString string) {
 
 	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Método de firma no válido")
+			return nil, fmt.Errorf("sign method not valid")
 		}
 		return secretKey, nil
 	})
