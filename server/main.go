@@ -46,7 +46,7 @@ func main() {
 
 	// Post Endpoints
 	http.HandleFunc("/post/auth-user", func(w http.ResponseWriter, r *http.Request) {
-
+		post.AuthUser(w, r, database)
 	})
 
 	http.HandleFunc("/post/create-user", func(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +54,7 @@ func main() {
 	})
 
 	http.HandleFunc("/post/create-task", func(w http.ResponseWriter, r *http.Request) {
-
+		post.CrateTask(w, r, database)
 	})
 
 	http.HandleFunc("/post/complete-task", func(w http.ResponseWriter, r *http.Request) {
