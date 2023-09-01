@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/facundocarballo/task-manager/handlers/crypto"
 	"github.com/facundocarballo/task-manager/handlers/db"
 	"github.com/facundocarballo/task-manager/handlers/messages"
 	"github.com/facundocarballo/task-manager/types"
@@ -60,6 +61,9 @@ func AuthUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 		http.Error(w, messages.ERROR_BODY_TO_USER, http.StatusBadRequest)
 		return false
 	}
+
+	tokenString := crypto.GenerateJWT()
+	crypto.ValidateJWT(*tokenString)
 
 	return true
 }
