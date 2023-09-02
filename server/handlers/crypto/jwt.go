@@ -2,15 +2,16 @@ package crypto
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
 )
 
-const JWT_KEY = "12345"
+const JWT_KEY = "JWT_KEY"
 
 func GenerateJWT() *string {
-	secretKey := []byte(JWT_KEY)
+	secretKey := []byte(os.Getenv(JWT_KEY))
 
 	oneDay := time.Hour * 24
 	oneMoth := oneDay * 30
@@ -33,7 +34,7 @@ func GenerateJWT() *string {
 }
 
 func ValidateJWT(tokenString string) {
-	secretKey := []byte(JWT_KEY)
+	secretKey := []byte(os.Getenv(JWT_KEY))
 
 	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {

@@ -4,11 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/facundocarballo/task-manager/handlers/db"
 	"github.com/facundocarballo/task-manager/handlers/get"
 	"github.com/facundocarballo/task-manager/handlers/post"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 // Global Variables
@@ -18,7 +20,15 @@ var err error
 const PORT string = ":3690"
 
 func main() {
-	database, err = sql.Open("mysql", db.DATABASE_DATASOURCE)
+
+	// Try to open the .env file
+	err = godotenv.Load("../.env")
+	if err != nil {
+		println("Could not load the .env file.")
+		os.Exit(1)
+	}
+
+	database, err = sql.Open("mysql", db.GetDatabaseDatasource())
 	if err != nil {
 		panic(err)
 	}
