@@ -25,6 +25,7 @@ const CANNOT_DELETE_CATEGORY = "Cannot delete that Category."
 // Login
 const PASSWORD_EMPTY = "Password field is empty."
 const PASSWORD_INCORRECT = "Incorrect Password."
+const CANNOT_GET_USER_FROM_ID = "Cannot get user from Id."
 
 // JWT
 const JWT_DONT_MATCH_WITH_USER = "JWT doesn't match with the user that you want to request."

@@ -61,7 +61,7 @@ func GetUser(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 	}
 
 	// Make the Query
-	rows, err := database.Query(queries.GET_USER_BY_EMAIL + user.Email)
+	rows, err := database.Query(queries.GET_USER_BY_EMAIL + "'" + user.Email + "'")
 	if err != nil {
 		panic(err.Error())
 	}

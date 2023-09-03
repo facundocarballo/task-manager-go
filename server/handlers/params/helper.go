@@ -2,6 +2,7 @@ package params
 
 import (
 	"net/http"
+	"strings"
 )
 
 func CheckParam(w http.ResponseWriter, r *http.Request, parameter string) bool {
@@ -18,5 +19,5 @@ func CheckParam(w http.ResponseWriter, r *http.Request, parameter string) bool {
 func GetParam(parameter string, r *http.Request) string {
 	queryParams := r.URL.Query()
 
-	return queryParams.Get(parameter)
+	return strings.Replace(queryParams.Get(parameter), "\"", "", -1)
 }
