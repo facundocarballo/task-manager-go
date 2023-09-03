@@ -116,7 +116,15 @@ func DeleteUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 		return false
 	}
 
-	// TODO: Check that the user who sends this POST Request is the user itself.
+	tokenString := crypto.GetJWTFromRequest(w, r)
+	if tokenString == nil {
+		return false
+	}
+
+	if !crypto.ValidateJWT(*tokenString, *user, crypto.ID_KEY) {
+		http.Error(w, messages.JWT_DONT_MATCH_WITH_USER, 404)
+		return false
+	}
 
 	err = db.DeleteUser(database, user)
 
