@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/facundocarballo/task-manager/handlers/db"
 	"github.com/facundocarballo/task-manager/handlers/params"
 	"github.com/facundocarballo/task-manager/types"
 )
@@ -76,4 +77,30 @@ func GetUser(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(users)
+}
+
+func GetUserPassword(id string, database *sql.DB) *string {
+	// Make the Query
+	rows, err := database.Query(db.GET_USER_PASSWORD + id)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var passwords []string
+	for rows.Next() {
+		var password string
+		err := rows.Scan(&password)
+		if err != nil {
+			return nil
+		}
+		passwords = append(passwords, password)
+	}
+
+	// Check Error on Rows
+	if err := rows.Err(); err != nil {
+		return nil
+	}
+
+	return &passwords[0]
 }

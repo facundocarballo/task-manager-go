@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/facundocarballo/task-manager/handlers/crypto"
 	"github.com/facundocarballo/task-manager/handlers/db"
+	"github.com/facundocarballo/task-manager/handlers/get"
 	"github.com/facundocarballo/task-manager/handlers/messages"
 	"github.com/facundocarballo/task-manager/types"
 )
@@ -43,7 +45,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 	return err == nil
 }
 
-func AuthUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
+func Login(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 	if r.Method != http.MethodPost {
 		http.Error(w, messages.METHOD_NOT_ALLOWED, http.StatusMethodNotAllowed)
 		return false
@@ -62,8 +64,22 @@ func AuthUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 		return false
 	}
 
-	tokenString := crypto.GenerateJWT()
-	crypto.ValidateJWT(*tokenString)
+	if user.Password == "" {
+		http.Error(w, messages.PASSWORD_EMPTY, http.StatusBadRequest)
+		return false
+	}
+
+	// Check the password of the body match with the password stored in the Database
+	userPasswordHash := get.GetUserPassword(strconv.Itoa(user.Id), database)
+	if *userPasswordHash != crypto.TextToHash(user.Password) {
+		http.Error(w, messages.PASSWORD_INCORRECT, http.StatusBadRequest)
+		return false
+	}
+
+	tokenString := crypto.GenerateJWT(*user)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(*tokenString))
 
 	return true
 }

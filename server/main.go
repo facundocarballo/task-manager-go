@@ -55,8 +55,8 @@ func main() {
 	})
 
 	// Post Endpoints
-	http.HandleFunc("/post/auth-user", func(w http.ResponseWriter, r *http.Request) {
-		post.AuthUser(w, r, database)
+	http.HandleFunc("/post/login", func(w http.ResponseWriter, r *http.Request) {
+		post.Login(w, r, database)
 	})
 
 	http.HandleFunc("/post/create-user", func(w http.ResponseWriter, r *http.Request) {

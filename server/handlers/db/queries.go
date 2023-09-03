@@ -1,8 +1,9 @@
 package db
 
-// Usser
+// User
 const INSERT_USER_STATEMENT = "INSERT INTO User (username, email, password) VALUES (?, ?, ?)"
 const DELETE_USER_STATEMENT = "DELETE FROM User WHERE id = (?)"
+const GET_USER_PASSWORD = "SELECT (password) FROM User WHERE id = " // Get Query
 
 // Task
 const INSERT_TASK_STATEMENT = "INSERT INTO Task (name, description, created, mustEnd, categoryId) VALUES (?, ?, ?, ?, ?)"

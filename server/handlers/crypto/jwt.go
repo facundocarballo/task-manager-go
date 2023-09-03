@@ -5,12 +5,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/facundocarballo/task-manager/types"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 const JWT_KEY = "JWT_KEY"
 
-func GenerateJWT() *string {
+func GenerateJWT(user types.User) *string {
 	secretKey := []byte(os.Getenv(JWT_KEY))
 
 	oneDay := time.Hour * 24
