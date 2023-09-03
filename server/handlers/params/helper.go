@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/facundocarballo/task-manager/handlers/messages"
 	"github.com/facundocarballo/task-manager/types"
@@ -35,4 +36,17 @@ func GetUserFromId(w http.ResponseWriter, r *http.Request) *types.User {
 	}
 	user := types.CreateUser(userId, "", "", "")
 	return &user
+}
+
+func GetTaskFromCategoryId(w http.ResponseWriter, r *http.Request) *types.Task {
+	categoryIdStr := GetParam(CATEGORY_ID, r)
+	categoryId, err := strconv.Atoi(categoryIdStr)
+	if err != nil {
+		http.Error(w, messages.ERROR_GETTING_USER_ID, http.StatusInternalServerError)
+		return nil
+	}
+
+	task := types.CreateTask(0, "", "", time.Now(), nil, categoryId)
+
+	return &task
 }

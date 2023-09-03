@@ -23,7 +23,6 @@ func GenerateJWT(user types.User) *string {
 	claims := token.Claims.(jwt.MapClaims)
 	claims[USERNAME_KEY] = user.Username
 	claims[PASSWORD_KEY] = TextToHash(user.Password)
-	println("Guardando user.id = ", user.Id)
 	claims[ID_KEY] = user.Id
 	claims[EMAIL_KEY] = user.Email
 

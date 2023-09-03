@@ -28,3 +28,14 @@ func BodyToTask(body []byte) *Task {
 
 	return &task
 }
+
+func CreateTask(id int, name string, description string, created time.Time, mustEnd *time.Time, categoryId int) Task {
+	return Task{
+		Id:          id,
+		Name:        name,
+		Description: description,
+		Created:     created,
+		MustEnd:     mustEnd,
+		CategoryId:  categoryId,
+	}
+}
