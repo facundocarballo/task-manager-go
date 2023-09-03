@@ -75,10 +75,12 @@ func main() {
 		post.DeleteTask(w, r, database)
 	})
 
+	// TODO: Delete categories and tasks of the user deleted.
 	http.HandleFunc("/post/delete-user", func(w http.ResponseWriter, r *http.Request) {
 		post.DeleteUser(w, r, database)
 	})
 
+	// TODO: Check ColorID, Check Parent ID are the owner of the category created too.
 	http.HandleFunc("/post/category", func(w http.ResponseWriter, r *http.Request) {
 		post.CrateCategory(w, r, database)
 	})
