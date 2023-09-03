@@ -24,3 +24,12 @@ func BodyToUser(body []byte) *User {
 
 	return &user
 }
+
+func CreateUser(id int, username string, email string, password string) User {
+	return User{
+		Id:       id,
+		Username: username,
+		Email:    email,
+		Password: password,
+	}
+}

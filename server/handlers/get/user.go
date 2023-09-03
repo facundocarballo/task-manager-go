@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/facundocarballo/task-manager/handlers/crypto"
 	"github.com/facundocarballo/task-manager/handlers/db/queries"
+	"github.com/facundocarballo/task-manager/handlers/messages"
 	"github.com/facundocarballo/task-manager/handlers/params"
 	"github.com/facundocarballo/task-manager/types"
 )
@@ -46,10 +48,20 @@ func GetUser(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 	if !params.CheckParam(w, r, params.USER_EMAIL) {
 		return
 	}
-	email := params.GetParam(params.USER_EMAIL, r)
+	user := types.CreateUser(0, "", params.GetParam(params.USER_EMAIL, r), "")
+
+	tokenString := crypto.GetJWTFromRequest(w, r)
+	if tokenString == nil {
+		return
+	}
+
+	if !crypto.ValidateJWT(*tokenString, user, crypto.EMAIL_KEY) {
+		http.Error(w, messages.JWT_DONT_MATCH_WITH_USER, 404)
+		return
+	}
 
 	// Make the Query
-	rows, err := database.Query("SELECT * FROM User WHERE email = " + email)
+	rows, err := database.Query(queries.GET_USER_BY_EMAIL + user.Email)
 	if err != nil {
 		panic(err.Error())
 	}

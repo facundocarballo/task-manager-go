@@ -4,11 +4,9 @@ import (
 	"database/sql"
 	"io"
 	"net/http"
-	"strconv"
 
 	"github.com/facundocarballo/task-manager/handlers/crypto"
 	"github.com/facundocarballo/task-manager/handlers/db"
-	"github.com/facundocarballo/task-manager/handlers/get"
 	"github.com/facundocarballo/task-manager/handlers/messages"
 	"github.com/facundocarballo/task-manager/types"
 )
@@ -69,9 +67,7 @@ func Login(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 		return false
 	}
 
-	// Check the password of the body match with the password stored in the Database
-	userPasswordHash := get.GetUserPassword(strconv.Itoa(user.Id), database)
-	if *userPasswordHash != crypto.TextToHash(user.Password) {
+	if db.CheckUserPassword(database, *user) {
 		http.Error(w, messages.PASSWORD_INCORRECT, http.StatusBadRequest)
 		return false
 	}

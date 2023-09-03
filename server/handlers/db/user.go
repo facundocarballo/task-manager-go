@@ -2,9 +2,11 @@ package db
 
 import (
 	"database/sql"
+	"strconv"
 
 	"github.com/facundocarballo/task-manager/handlers/crypto"
 	"github.com/facundocarballo/task-manager/handlers/db/queries"
+	"github.com/facundocarballo/task-manager/handlers/get"
 	"github.com/facundocarballo/task-manager/types"
 )
 
@@ -28,4 +30,8 @@ func DeleteUser(database *sql.DB, user *types.User) error {
 	)
 
 	return err
+}
+
+func CheckUserPassword(database *sql.DB, user types.User) bool {
+	return *(get.GetUserPassword(strconv.Itoa(user.Id), database)) == user.Password
 }
