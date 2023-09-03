@@ -33,15 +33,25 @@ func CreateUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 
 	err = db.CreateUser(database, user)
 
-	if err == nil {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(messages.POST_REQUEST_SUCCESSFUL))
-	} else {
+	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(messages.CANNOT_CREATE_USER + " " + err.Error()))
+		return false
 	}
 
-	return err == nil
+	resData := types.ResponseData{
+		Message: messages.POST_REQUEST_SUCCESSFUL,
+		JWT:     crypto.GenerateJWT(*user),
+	}
+	resJSON := types.GetResponseDataJSON(resData)
+	if resJSON == nil {
+		http.Error(w, messages.ERROR_CONVERTING_RES_TO_JSON, http.StatusInternalServerError)
+		return false
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(*resJSON)
+
+	return true
 }
 
 func Login(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {

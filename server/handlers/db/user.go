@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"strconv"
 
-	"github.com/facundocarballo/task-manager/handlers/crypto"
 	"github.com/facundocarballo/task-manager/handlers/db/queries"
 	"github.com/facundocarballo/task-manager/handlers/get"
 	"github.com/facundocarballo/task-manager/types"
@@ -16,7 +15,7 @@ func CreateUser(database *sql.DB, user *types.User) error {
 		queries.INSERT_USER_STATEMENT,
 		user.Username,
 		user.Email,
-		crypto.TextToHash(user.Password),
+		user.Password,
 	)
 
 	return err

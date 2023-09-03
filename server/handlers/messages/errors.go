@@ -30,3 +30,6 @@ const CANNOT_GET_USER_FROM_ID = "Cannot get user from Id."
 
 // JWT
 const JWT_DONT_MATCH_WITH_USER = "JWT doesn't match with the user that you want to request."
+
+// Response Data
+const ERROR_CONVERTING_RES_TO_JSON = "Error converting the response to JSON."
