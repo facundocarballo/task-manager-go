@@ -10,6 +10,7 @@ const READING_REQUEST_BODY = "Error reading request body"
 const ERROR_BODY_TO_USER = "Error converting the body request to User."
 const CANNOT_CREATE_USER = "Cannot create that user."
 const CANNOT_DELETE_USER = "Cannot create that user."
+const ERROR_GETTING_USER_ID = "Error getting the user id."
 
 // Task
 const ERROR_BODY_TO_TASK = "Error converting the body request to Task."

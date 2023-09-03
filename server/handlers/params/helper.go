@@ -2,7 +2,11 @@ package params
 
 import (
 	"net/http"
+	"strconv"
 	"strings"
+
+	"github.com/facundocarballo/task-manager/handlers/messages"
+	"github.com/facundocarballo/task-manager/types"
 )
 
 func CheckParam(w http.ResponseWriter, r *http.Request, parameter string) bool {
@@ -20,4 +24,15 @@ func GetParam(parameter string, r *http.Request) string {
 	queryParams := r.URL.Query()
 
 	return strings.Replace(queryParams.Get(parameter), "\"", "", -1)
+}
+
+func GetUserFromId(w http.ResponseWriter, r *http.Request) *types.User {
+	userIdStr := GetParam(USER_ID, r)
+	userId, err := strconv.Atoi(userIdStr)
+	if err != nil {
+		http.Error(w, messages.ERROR_GETTING_USER_ID, http.StatusInternalServerError)
+		return nil
+	}
+	user := types.CreateUser(userId, "", "", "")
+	return &user
 }

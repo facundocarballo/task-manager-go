@@ -23,6 +23,7 @@ func GenerateJWT(user types.User) *string {
 	claims := token.Claims.(jwt.MapClaims)
 	claims[USERNAME_KEY] = user.Username
 	claims[PASSWORD_KEY] = TextToHash(user.Password)
+	println("Guardando user.id = ", user.Id)
 	claims[ID_KEY] = user.Id
 	claims[EMAIL_KEY] = user.Email
 
@@ -61,7 +62,7 @@ func ValidateJWT(tokenString string, user types.User, key string) bool {
 
 	switch key {
 	case "id":
-		return user.Id == claims[ID_KEY].(int)
+		return user.Id == int(claims[ID_KEY].(float64))
 	case "username":
 		return user.Username == claims[USERNAME_KEY].(string)
 	case "email":
