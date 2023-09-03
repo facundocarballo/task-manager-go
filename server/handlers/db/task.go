@@ -4,12 +4,13 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/facundocarballo/task-manager/handlers/db/queries"
 	"github.com/facundocarballo/task-manager/types"
 )
 
 func CreateTask(database *sql.DB, task *types.Task) error {
 	_, err := database.Exec(
-		INSERT_TASK_STATEMENT,
+		queries.INSERT_TASK_STATEMENT,
 		task.Name,
 		task.Description,
 		time.Now(),
@@ -22,7 +23,7 @@ func CreateTask(database *sql.DB, task *types.Task) error {
 
 func CompleteTask(database *sql.DB, task *types.Task) error {
 	_, err := database.Exec(
-		INSERT_TASK_COMPLETED_STATEMENT,
+		queries.INSERT_TASK_COMPLETED_STATEMENT,
 		task.Id,
 		time.Now(),
 	)
@@ -32,7 +33,7 @@ func CompleteTask(database *sql.DB, task *types.Task) error {
 
 func DeleteTask(database *sql.DB, task *types.Task) error {
 	_, err := database.Exec(
-		INSERT_TASK_DELETED_STATEMENT,
+		queries.INSERT_TASK_DELETED_STATEMENT,
 		task.Id,
 		time.Now(),
 	)

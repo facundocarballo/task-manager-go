@@ -3,13 +3,14 @@ package db
 import (
 	"database/sql"
 
+	"github.com/facundocarballo/task-manager/handlers/db/queries"
 	"github.com/facundocarballo/task-manager/types"
 )
 
 func CreateCategory(database *sql.DB, category *types.Category) error {
 
 	_, err := database.Exec(
-		INSERT_CATEGORY_STATEMENT,
+		queries.INSERT_CATEGORY_STATEMENT,
 		category.Name,
 		category.Description,
 		category.Owner,
@@ -23,7 +24,7 @@ func CreateCategory(database *sql.DB, category *types.Category) error {
 func DeleteCategory(database *sql.DB, category *types.Category) error {
 
 	_, err := database.Exec(
-		DELETE_CATEGORY_STATEMENT,
+		queries.DELETE_CATEGORY_STATEMENT,
 		category.Id,
 	)
 

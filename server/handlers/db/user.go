@@ -4,13 +4,14 @@ import (
 	"database/sql"
 
 	"github.com/facundocarballo/task-manager/handlers/crypto"
+	"github.com/facundocarballo/task-manager/handlers/db/queries"
 	"github.com/facundocarballo/task-manager/types"
 )
 
 func CreateUser(database *sql.DB, user *types.User) error {
 
 	_, err := database.Exec(
-		INSERT_USER_STATEMENT,
+		queries.INSERT_USER_STATEMENT,
 		user.Username,
 		user.Email,
 		crypto.TextToHash(user.Password),
@@ -22,7 +23,7 @@ func CreateUser(database *sql.DB, user *types.User) error {
 func DeleteUser(database *sql.DB, user *types.User) error {
 
 	_, err := database.Exec(
-		DELETE_USER_STATEMENT,
+		queries.DELETE_USER_STATEMENT,
 		user.Id,
 	)
 

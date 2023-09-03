@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/facundocarballo/task-manager/handlers/db"
+	"github.com/facundocarballo/task-manager/handlers/db/queries"
 	"github.com/facundocarballo/task-manager/handlers/params"
 	"github.com/facundocarballo/task-manager/types"
 )
@@ -81,7 +81,7 @@ func GetUser(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 
 func GetUserPassword(id string, database *sql.DB) *string {
 	// Make the Query
-	rows, err := database.Query(db.GET_USER_PASSWORD + id)
+	rows, err := database.Query(queries.GET_USER_PASSWORD + id)
 	if err != nil {
 		panic(err.Error())
 	}
