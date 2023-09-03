@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/facundocarballo/task-manager/handlers/crypto"
+	"github.com/facundocarballo/task-manager/handlers/db/queries"
 	"github.com/facundocarballo/task-manager/handlers/messages"
 	"github.com/facundocarballo/task-manager/handlers/params"
 	"github.com/facundocarballo/task-manager/types"
@@ -33,7 +34,7 @@ func GetCategories(w http.ResponseWriter, r *http.Request, database *sql.DB) {
 	}
 
 	// Make the Query
-	rows, err := database.Query("SELECT * FROM Category WHERE owner = " + strconv.Itoa(user.Id))
+	rows, err := database.Query(queries.GET_CATEGORY_FROM_OWNER + strconv.Itoa(user.Id))
 	if err != nil {
 		panic(err.Error())
 	}
