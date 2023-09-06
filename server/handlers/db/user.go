@@ -22,6 +22,13 @@ func CreateUser(database *sql.DB, user *types.User) error {
 }
 
 func DeleteUser(database *sql.DB, user *types.User) error {
+	// Check if the user have Categories to delete too.
+	categories := GetUserCategories(database, user)
+	if categories != nil {
+		for _, category := range *categories {
+			DeleteCategory(database, &category)
+		}
+	}
 
 	_, err := database.Exec(
 		queries.DELETE_USER_STATEMENT,
@@ -59,4 +66,25 @@ func GetUserFromId(id string, database *sql.DB) *types.User {
 	}
 
 	return &users[0]
+}
+
+func GetUserCategories(database *sql.DB, user *types.User) *[]types.Category {
+	rows, err := database.Query(queries.GET_CATEGORY_FROM_OWNER + strconv.Itoa(user.Id))
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	// Iterate Rows
+	var categories []types.Category
+	for rows.Next() {
+		var category types.Category
+		err := rows.Scan(&category.Id, &category.Name, &category.Description, &category.Owner, &category.ColorId, &category.ParentId)
+		if err != nil {
+			return nil
+		}
+		categories = append(categories, category)
+	}
+
+	return &categories
 }

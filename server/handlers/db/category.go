@@ -23,6 +23,13 @@ func CreateCategory(database *sql.DB, category *types.Category) error {
 }
 
 func DeleteCategory(database *sql.DB, category *types.Category) error {
+	// Check if this Category has Task to do, and delete those tasks.
+	tasks := GetTasksOfCategory(database, category)
+	if tasks != nil {
+		for _, task := range *tasks {
+			DeleteTask(database, &task)
+		}
+	}
 
 	_, err := database.Exec(
 		queries.DELETE_CATEGORY_STATEMENT,
@@ -46,7 +53,7 @@ func CheckParentId(database *sql.DB, category *types.Category) bool {
 	var categories []types.Category
 	for rows.Next() {
 		var cat types.Category
-		err := rows.Scan(&cat.Id, &cat.Name, &cat.Description, &cat.Owner, &cat.ColorId, &cat.ParentId)
+		err := rows.Scan(&cat.Owner)
 		if err != nil {
 			return false
 		}

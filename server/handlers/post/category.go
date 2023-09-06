@@ -105,14 +105,6 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) bo
 
 	err = db.DeleteCategory(database, category)
 
-	// Check if this Category has Task to do, and delete those tasks.
-	tasks := db.GetTasksOfCategory(database, category)
-	if tasks != nil {
-		for _, task := range *tasks {
-			db.DeleteTask(database, &task)
-		}
-	}
-
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(messages.POST_REQUEST_SUCCESSFUL))
