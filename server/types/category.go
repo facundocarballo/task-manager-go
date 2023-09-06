@@ -7,7 +7,8 @@ type Category struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Owner       int    `json:"owner"`
-	ColorId     int    `json:"colorId"`
+	Hex         string `json:"hex"`
+	ColorId     *int   `json:"colorId"`
 	ParentId    *int   `json:"parentId"`
 }
 

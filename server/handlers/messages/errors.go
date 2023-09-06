@@ -23,6 +23,9 @@ const ERROR_BODY_TO_CATEGORY = "Error converting the body request to Category."
 const CANNOT_CREATE_CATEGORY = "Cannot create that Category."
 const CANNOT_DELETE_CATEGORY = "Cannot delete that Category."
 
+// Color
+const CANNOT_CREATE_COLOR = "Cannot create the color of this Category."
+
 // Login
 const PASSWORD_EMPTY = "Password field is empty."
 const PASSWORD_INCORRECT = "Incorrect Password."

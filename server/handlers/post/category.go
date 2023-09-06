@@ -45,7 +45,12 @@ func CrateCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) boo
 		return false
 	}
 
-	// TODO: Check that the ColorID exist, if is not, we have to create that Color.
+	if !db.CheckColorExist(database, category.Hex) {
+		if !db.CreateColor(database, category.Hex) {
+			http.Error(w, messages.CANNOT_CREATE_COLOR, 404)
+		}
+	}
+
 	// TODO: Check that the ParenId it's owned for the same user that make this request.
 
 	// Create the Task
