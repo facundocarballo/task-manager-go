@@ -84,7 +84,17 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) bo
 		return false
 	}
 
-	// TODO: Check the user who sends this POST Request are the owner of the category.
+	user := types.CreateUser(category.Owner, "", "", "")
+
+	tokenString := crypto.GetJWTFromRequest(w, r)
+	if tokenString == nil {
+		return false
+	}
+
+	if !crypto.ValidateJWT(*tokenString, user, crypto.ID_KEY) {
+		http.Error(w, messages.JWT_DONT_MATCH_WITH_USER, 404)
+		return false
+	}
 
 	// Create the Task
 	err = db.DeleteCategory(database, category)
