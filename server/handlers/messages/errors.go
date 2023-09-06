@@ -22,6 +22,7 @@ const CANNOT_DELETE_TASK = "Cannot delete that task."
 const ERROR_BODY_TO_CATEGORY = "Error converting the body request to Category."
 const CANNOT_CREATE_CATEGORY = "Cannot create that Category."
 const CANNOT_DELETE_CATEGORY = "Cannot delete that Category."
+const CANNOT_CREATE_CATEGORY_PARENT_ID = CANNOT_CREATE_CATEGORY + " You are not the owner of the Parent Category that you provide us. You have to be the owner of the Parent Category too."
 
 // Color
 const CANNOT_CREATE_COLOR = "Cannot create the color of this Category."

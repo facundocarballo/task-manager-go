@@ -8,6 +8,7 @@ const GET_USER_BY_CATEGORY_ID = "SELECT * FROM User WHERE id = (SELECT owner FRO
 
 // Category
 const GET_CATEGORY_FROM_OWNER = "SELECT * FROM Category WHERE owner = "
+const GET_OWNER_CATEGORY_FROM_ID = "SELECT (owner) FROM Category WHERE id ="
 
 // Task
 const GET_ALL_TASKS_FROM_CATEGORY_ID = "SELECT * FROM Task WHERE categoryId = "

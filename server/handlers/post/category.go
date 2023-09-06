@@ -41,17 +41,20 @@ func CrateCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) boo
 	}
 
 	if !crypto.ValidateJWT(*tokenString, user, crypto.ID_KEY) {
-		http.Error(w, messages.JWT_DONT_MATCH_WITH_USER, 404)
+		http.Error(w, messages.JWT_DONT_MATCH_WITH_USER, http.StatusBadRequest)
 		return false
 	}
 
 	if !db.CheckColorExist(database, category.Hex) {
 		if !db.CreateColor(database, category.Hex) {
-			http.Error(w, messages.CANNOT_CREATE_COLOR, 404)
+			http.Error(w, messages.CANNOT_CREATE_COLOR, http.StatusBadRequest)
 		}
 	}
 
 	// TODO: Check that the ParenId it's owned for the same user that make this request.
+	if !db.CheckParentId(database, category) {
+		http.Error(w, messages.CANNOT_CREATE_CATEGORY_PARENT_ID, http.StatusBadRequest)
+	}
 
 	// Create the Task
 	err = db.CreateCategory(database, category)
@@ -97,7 +100,7 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) bo
 	}
 
 	if !crypto.ValidateJWT(*tokenString, user, crypto.ID_KEY) {
-		http.Error(w, messages.JWT_DONT_MATCH_WITH_USER, 404)
+		http.Error(w, messages.JWT_DONT_MATCH_WITH_USER, http.StatusBadRequest)
 		return false
 	}
 
