@@ -80,7 +80,6 @@ func main() {
 		post.DeleteUser(w, r, database)
 	})
 
-	// TODO: Check ColorID, Check Parent ID are the owner of the category created too.
 	http.HandleFunc("/post/category", func(w http.ResponseWriter, r *http.Request) {
 		post.CrateCategory(w, r, database)
 	})
