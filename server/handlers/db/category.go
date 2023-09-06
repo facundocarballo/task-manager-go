@@ -59,3 +59,24 @@ func CheckParentId(database *sql.DB, category *types.Category) bool {
 
 	return categories[0].Owner == category.Owner
 }
+
+func GetTasksOfCategory(database *sql.DB, category *types.Category) *[]types.Task {
+	rows, err := database.Query(queries.GET_ALL_TASKS_FROM_CATEGORY_ID + strconv.Itoa(category.Id))
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	// Iterate Rows
+	var tasks []types.Task
+	for rows.Next() {
+		var task types.Task
+		err := rows.Scan(&task.Id, &task.Name, &task.Description, &task.Created, &task.MustEnd, &task.CategoryId)
+		if err != nil {
+			return nil
+		}
+		tasks = append(tasks, task)
+	}
+
+	return &tasks
+}

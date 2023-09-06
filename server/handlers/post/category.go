@@ -51,12 +51,11 @@ func CrateCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) boo
 		}
 	}
 
-	// TODO: Check that the ParenId it's owned for the same user that make this request.
+	// Check that the ParenId it's owned for the same user that make this request.
 	if !db.CheckParentId(database, category) {
 		http.Error(w, messages.CANNOT_CREATE_CATEGORY_PARENT_ID, http.StatusBadRequest)
 	}
 
-	// Create the Task
 	err = db.CreateCategory(database, category)
 
 	if err == nil {
@@ -104,10 +103,15 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) bo
 		return false
 	}
 
-	// Create the Task
 	err = db.DeleteCategory(database, category)
 
-	// TODO: Check if this Category has Task to do, and delete those tasks.
+	// Check if this Category has Task to do, and delete those tasks.
+	tasks := db.GetTasksOfCategory(database, category)
+	if tasks != nil {
+		for _, task := range *tasks {
+			db.DeleteTask(database, &task)
+		}
+	}
 
 	if err == nil {
 		w.WriteHeader(http.StatusOK)

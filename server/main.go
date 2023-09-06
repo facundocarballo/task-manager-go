@@ -84,7 +84,6 @@ func main() {
 		post.CrateCategory(w, r, database)
 	})
 
-	// TODO: Delete all task of this category deleted.
 	http.HandleFunc("/post/delete-category", func(w http.ResponseWriter, r *http.Request) {
 		post.DeleteCategory(w, r, database)
 	})
