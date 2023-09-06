@@ -128,8 +128,6 @@ func DeleteUser(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 
 	err = db.DeleteUser(database, user)
 
-	// TODO: Check if the user have Categories and Tasks and DELETE those too.
-
 	if err == nil {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(messages.POST_REQUEST_SUCCESSFUL))
