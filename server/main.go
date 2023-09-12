@@ -75,7 +75,6 @@ func main() {
 		post.DeleteTask(w, r, database)
 	})
 
-	// TODO: Delete categories and tasks of the user deleted.
 	http.HandleFunc("/post/delete-user", func(w http.ResponseWriter, r *http.Request) {
 		post.DeleteUser(w, r, database)
 	})
