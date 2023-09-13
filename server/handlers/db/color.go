@@ -7,10 +7,10 @@ import (
 	"github.com/facundocarballo/task-manager/types"
 )
 
-func CheckColorExist(database *sql.DB, hex string) bool {
+func GetColorId(database *sql.DB, hex string) int {
 	rows, err := database.Query(queries.GET_COLOR_FROM_HEX + hex)
 	if err != nil {
-		panic(err.Error())
+		return -1
 	}
 	defer rows.Close()
 
@@ -19,12 +19,16 @@ func CheckColorExist(database *sql.DB, hex string) bool {
 		var color types.Color
 		err := rows.Scan(&color.Id, &color.Hex)
 		if err != nil {
-			return false
+			return -1
 		}
 		colors = append(colors, color)
 	}
 
-	return len(colors) > 0
+	if len(colors) > 0 {
+		return colors[0].Id
+	}
+
+	return -1
 }
 
 func CreateColor(database *sql.DB, hex string) bool {

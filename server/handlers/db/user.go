@@ -68,6 +68,36 @@ func GetUserFromId(id string, database *sql.DB) *types.User {
 	return &users[0]
 }
 
+func GetUserFromUsername(username string, database *sql.DB) *types.User {
+	rows, err := database.Query(queries.GET_USER_BY_USERNAME + "'" + username + "'")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	// Iterate Rows
+	var users []types.User
+	for rows.Next() {
+		var user types.User
+		err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Password)
+		if err != nil {
+			return nil
+		}
+		users = append(users, user)
+	}
+
+	// Check Error on Rows
+	if err := rows.Err(); err != nil {
+		return nil
+	}
+
+	if len(users) > 0 {
+		return &users[0]
+	}
+
+	return nil
+}
+
 func GetUserCategories(database *sql.DB, user *types.User) *[]types.Category {
 	rows, err := database.Query(queries.GET_CATEGORY_FROM_OWNER + strconv.Itoa(user.Id))
 	if err != nil {

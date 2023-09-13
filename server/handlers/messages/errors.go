@@ -28,9 +28,11 @@ const CANNOT_CREATE_CATEGORY_PARENT_ID = CANNOT_CREATE_CATEGORY + " You are not 
 const CANNOT_CREATE_COLOR = "Cannot create the color of this Category."
 
 // Login
+const USERNAME_EMPTY = "Username field is empty."
 const PASSWORD_EMPTY = "Password field is empty."
 const PASSWORD_INCORRECT = "Incorrect Password."
 const CANNOT_GET_USER_FROM_ID = "Cannot get user from Id."
+const CANNOT_GET_USER_FROM_USERNAME = "Cannot get user from Username."
 
 // JWT
 const JWT_DONT_MATCH_WITH_USER = "JWT doesn't match with the user that you want to request."

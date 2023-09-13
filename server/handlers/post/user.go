@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"io"
 	"net/http"
-	"strconv"
 
 	"github.com/facundocarballo/task-manager/handlers/crypto"
 	"github.com/facundocarballo/task-manager/handlers/db"
@@ -78,18 +77,28 @@ func Login(w http.ResponseWriter, r *http.Request, database *sql.DB) bool {
 		return false
 	}
 
-	if !db.CheckUserPassword(database, *user) {
-		http.Error(w, messages.PASSWORD_INCORRECT, http.StatusBadRequest)
+	if user.Username == "" {
+		http.Error(w, messages.USERNAME_EMPTY, http.StatusBadRequest)
 		return false
 	}
 
-	user = db.GetUserFromId(strconv.Itoa(user.Id), database)
-	if user == nil {
+	realUser := db.GetUserFromUsername(user.Username, database)
+	if realUser == nil {
 		http.Error(w, messages.CANNOT_GET_USER_FROM_ID, http.StatusBadRequest)
 		return false
 	}
 
-	tokenString := crypto.GenerateJWT(*user)
+	if user.Password != realUser.Password {
+		http.Error(w, messages.PASSWORD_INCORRECT, http.StatusBadRequest)
+		return false
+	}
+
+	// if !db.CheckUserPassword(database, *user) {
+	// 	http.Error(w, messages.PASSWORD_INCORRECT, http.StatusBadRequest)
+	// 	return false
+	// }
+
+	tokenString := crypto.GenerateJWT(*realUser)
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(*tokenString))

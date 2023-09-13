@@ -45,11 +45,15 @@ func CrateCategory(w http.ResponseWriter, r *http.Request, database *sql.DB) boo
 		return false
 	}
 
-	if !db.CheckColorExist(database, category.Hex) {
+	colorId := db.GetColorId(database, category.Hex)
+	if colorId < 0 {
 		if !db.CreateColor(database, category.Hex) {
 			http.Error(w, messages.CANNOT_CREATE_COLOR, http.StatusBadRequest)
 		}
+		colorId = db.GetLastIdInserted(database)
 	}
+
+	category.ColorId = &colorId
 
 	// Check that the ParenId it's owned for the same user that make this request.
 	if !db.CheckParentId(database, category) {
